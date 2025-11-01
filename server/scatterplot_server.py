@@ -134,6 +134,7 @@ def scatterplot_server(input, output, session, shared):
                                       "legend.fontsize": font_size,
                                       "axes.titlesize": font_size * 1.2
         }):
+            # Added: Heatmap mode
             if heatmap_mode:
                 color = get_color_values() if color_enabled else None
                 img = scatter_heatmap(x, y, color)
