@@ -60,12 +60,12 @@ def features_server(input, output, session, shared):
     @render.download(filename="features_histogram_data.csv")
     def download_histogram1_df():
         df = shared['df_histogram1'].get()
-        if df:
+        if df is None:
+            return None
+        else:
             csv_string = df.to_csv(index=False)
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"
-        return None
-
 
     @render.ui
     @reactive.event(input.go_h1, ignore_none=True)

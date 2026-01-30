@@ -184,8 +184,7 @@ def spatial_server(input, output, session, shared):
 
     @reactive.effect
     def spatial_reactivity():
-        flipper = shared['data_loaded'].get()
-        if flipper:
+        if shared['data_loaded'].get():
             btn = input.spatial_rb()
 
             if btn == "Annotation":
