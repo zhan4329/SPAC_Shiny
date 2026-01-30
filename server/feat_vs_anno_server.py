@@ -188,7 +188,7 @@ def feat_vs_anno_server(input, output, session, shared):
     @render.download(filename="heatmap_data.csv")
     def download_df_hm1():
         df = shared['df_heatmap'].get()
-        if df:
+        if df is not None and not df.empty:
             csv_string = df.to_csv(index=False)
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"

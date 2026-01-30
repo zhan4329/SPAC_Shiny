@@ -152,7 +152,7 @@ def nearest_neighbor_server(input, output, session, shared):
         elif spatial_distance_key in adata.uns:
             distance_df = adata.uns[spatial_distance_key]
 
-        if distance_df and hasattr(distance_df, 'columns'):
+        if distance_df is not None and hasattr(distance_df, 'columns'):
             spatial_phenotypes = set(distance_df.columns)
 
             # Find annotation column that contains matching phenotypes
@@ -263,7 +263,7 @@ def nearest_neighbor_server(input, output, session, shared):
             CSV bytes and content type
         """
         df = shared['df_nn'].get()
-        if df:
+        if df is not None and not df.empty:
             csv_string = df.to_csv(index=False)
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"
@@ -280,7 +280,8 @@ def nearest_neighbor_server(input, output, session, shared):
         shiny.ui element or None
             Download button UI or None if no data
         """
-        if shared['df_nn'].get():
+        df = shared['df_nn'].get()
+        if df is not None and not df.empty:
             return ui.download_button(
                 "download_df_nn",
                 "Download Data",

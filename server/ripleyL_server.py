@@ -107,7 +107,7 @@ def ripleyL_server(input, output, session, shared):
     @render.download(filename="ripley_plot_data.csv")
     def download_df_rl():
         df = shared['df_ripley'].get()
-        if df:
+        if df is not None and not df.empty:
             csv_string = df.to_csv(index=False)
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"
@@ -116,7 +116,8 @@ def ripleyL_server(input, output, session, shared):
     @render.ui
     @reactive.event(input.go_rl, ignore_none=True)
     def download_button_ui_rl():
-        if shared['df_ripley'].get():
+        df = shared['df_ripley'].get()
+        if df is not None and not df.empty:
             return ui.download_button(
                 "download_df_rl",
                 "Download Data",
