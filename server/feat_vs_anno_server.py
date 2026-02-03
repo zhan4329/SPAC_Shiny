@@ -35,7 +35,7 @@ def feat_vs_anno_server(input, output, session, shared):
         )
     
     @output
-    @render.plot
+    @render.plot(alt="Heatmap Plot")
     @reactive.event(input.go_hm1, ignore_none=True)
     def spac_Heatmap():
         adata = get_adata()
