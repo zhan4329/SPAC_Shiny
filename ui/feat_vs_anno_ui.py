@@ -123,22 +123,21 @@ def feat_vs_anno_ui():
                                 ui.panel_conditional(
                                     "input.hm1_show_axis_settings",
                                     # TODO: Decide whether to refactor it to input_numeric as in nn
-                                    accessible_slider(
+                                    ui.input_numeric(
                                         "hm1_x_label_rotation",
                                         "Rotate X Axis Labels (degrees)",
-                                        min_val=0,
-                                        max_val=90,
-                                        value=50,
-                                        step=1
+                                        min=0,
+                                        max=90,
+                                        value=50
                                     ),
-                                    ui.input_slider(
+                                    ui.input_numeric(
                                         "hm1_y_label_rotation", 
                                         "Rotate Y Axis Labels", 
                                         min=0, 
                                         max=90, 
                                         value=25
                                     ),
-                                    ui.input_slider(
+                                    ui.input_numeric(
                                         "hm1_axis_label_fontsize",
                                         "Axis Label Font Size",
                                         min=3,
@@ -152,7 +151,7 @@ def feat_vs_anno_ui():
                                     ),
                                     ui.panel_conditional(
                                         "input.hm1_enable_abbreviation",
-                                        ui.input_slider(
+                                        ui.input_numeric(
                                             "hm1_label_char_limit",
                                             "Axis Label Character Limit",
                                             min=3,
