@@ -6,11 +6,16 @@ visualize features (genes/proteins) against cell annotations using the
 hierarchical_heatmap function.
 """
 
-from shiny import ui, render, reactive
+from shiny import ui, render, reactive, req
 import anndata as ad
 import numpy as np
 import pandas as pd
+import logging
 import spac.visualization
+
+
+# Set up logger
+logger = logging.getLogger(__name__)
 
 
 def feat_vs_anno_server(input, output, session, shared):
@@ -89,6 +94,10 @@ def feat_vs_anno_server(input, output, session, shared):
         matplotlib.figure.Figure or None
             Heatmap figure with optional dendrograms, or None if generation fails
         """
+        # Validation: Ensure required inputs are present
+        req(input.hm1_anno())
+        req(input.hm1_layer())
+        
         adata = get_adata()
         if adata is None:
             return None
@@ -98,6 +107,7 @@ def feat_vs_anno_server(input, output, session, shared):
         kwargs = {"vmin": vmin, "vmax": vmax}
         cluster_annotations, cluster_features = on_dendro_check()
 
+        # Error Handling: Catch and log specific errors
         try:
             df, fig, ax = spac.visualization.hierarchical_heatmap(
                 adata,
@@ -108,14 +118,18 @@ def feat_vs_anno_server(input, output, session, shared):
                 cluster_feature=cluster_features,
                 **kwargs
             )
+        except ValueError as e:
+            logger.error(f"Heatmap generation failed with invalid parameters: {e}")
+            return None
         except Exception as e:
-            print("Heatmap generation failed:", e)
+            logger.error(f"Unexpected error during heatmap generation: {e}")
             return None
 
         if fig is None or not hasattr(fig, "ax_heatmap"):
-            print("Invalid figure structure.")
+            logger.error("Invalid figure structure.")
             return None
 
+        # Apply colormap
         cmap = input.hm1_cmap()
         if cmap != "viridis":
             fig.ax_heatmap.collections[0].set_cmap(cmap)
@@ -177,41 +191,67 @@ def feat_vs_anno_server(input, output, session, shared):
     @reactive.effect
     @reactive.event(input.hm1_layer)
     def update_min_max():
+        req(input.hm1_anno())
+        req(input.hm1_layer())
+
         adata = get_adata()
-        if input.hm1_layer() == "Original":
-            layer_data = adata.X
-        else:
-            layer_data = adata.layers[input.hm1_layer()]
-        mask = adata.obs[input.hm1_anno()].notna()
-        layer_data = layer_data[mask]
-        min_val = round(float(np.min(layer_data)), 2)
-        max_val = round(float(np.max(layer_data)), 2)
+        if adata is None:
+            return None
 
-        ui.remove_ui("#inserted-hm1_min_num")
-        ui.remove_ui("#inserted-hm1_max_num")
+        try:
+            # Determine layer data source
+            if input.hm1_layer() == "Original":
+                layer_data = adata.X
+            else:
+                # Check if layer exists in AnnData
+                if input.hm1_layer() not in adata.layers:
+                    return None
+                layer_data = adata.layers[input.hm1_layer()]
+    
+            # Check if annotation exists in obs
+            if input.hm1_anno() not in adata.obs:
+                return None
 
-        min_num = ui.input_numeric(
-            "hm1_min_select", 
-            "Minimum", 
-            min_val, 
-            min=min_val, 
-            max=max_val
-        )
-        ui.insert_ui(
-            ui.div({"id": "inserted-hm1_min_num"}, min_num),
-            selector="#main-hm1_min_num",
-            where="beforeEnd",
-        )
+            # Filter layer data based on valid annotations
+            mask = adata.obs[input.hm1_anno()].notna()
+            layer_data = layer_data[mask]
+
+            # Avoid calculation on empty data
+            if layer_data.size == 0:
+                return None
+
+            min_val = round(float(np.min(layer_data)), 2)
+            max_val = round(float(np.max(layer_data)), 2)
+
+            # UI Update
+            ui.remove_ui("#inserted-hm1_min_num")
+            ui.remove_ui("#inserted-hm1_max_num")
+
+            min_num = ui.input_numeric(
+                "hm1_min_select", 
+                "Minimum", 
+                min_val, 
+                min=min_val, 
+                max=max_val
+            )
+            ui.insert_ui(
+                ui.div({"id": "inserted-hm1_min_num"}, min_num),
+                selector="#main-hm1_min_num",
+                where="beforeEnd",
+            )
         
-        max_num = ui.input_numeric(
-            "hm1_max_select", 
-            "Maximum", 
-            max_val, 
-            min=min_val, 
-            max=max_val
-        )
-        ui.insert_ui(
-            ui.div({"id": "inserted-hm1_max_num"}, max_num),
-            selector="#main-hm1_max_num",
-            where="beforeEnd",
-        )
+            max_num = ui.input_numeric(
+                "hm1_max_select", 
+                "Maximum", 
+                max_val, 
+                min=min_val, 
+                max=max_val
+            )
+            ui.insert_ui(
+                ui.div({"id": "inserted-hm1_max_num"}, max_num),
+                selector="#main-hm1_max_num",
+                where="beforeEnd",
+            )
+        except Exception as e:
+            logger.error(f"Error updating min/max values: {e}")
+            return None
