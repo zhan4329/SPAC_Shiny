@@ -132,7 +132,7 @@ def feat_vs_anno_ui():
                                     ),
                                     ui.input_numeric(
                                         "hm1_y_label_rotation", 
-                                        "Rotate Y Axis Labels", 
+                                        "Rotate Y Axis Labels (degrees)", 
                                         min=0, 
                                         max=90, 
                                         value=25
