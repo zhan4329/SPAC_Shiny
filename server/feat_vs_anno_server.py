@@ -1,3 +1,11 @@
+"""
+Feature vs Annotation heatmap visualization module for SPAC Shiny application.
+
+This module handles the server-side logic for generating heatmaps that 
+visualize features (genes/proteins) against cell annotations using the 
+hierarchical_heatmap function.
+"""
+
 from shiny import ui, render, reactive
 import anndata as ad
 import numpy as np
@@ -6,17 +14,42 @@ import spac.visualization
 
 
 def feat_vs_anno_server(input, output, session, shared):
+    """
+    Server logic for feature vs annotation heatmap visualization.
+
+    Parameters
+    ----------
+    input : shiny.session.Inputs
+        Shiny input object
+    output : shiny.session.Outputs
+        Shiny output object
+    session : shiny.session.Session
+        Shiny session object
+    shared : dict
+        Shared reactive values across server modules
+    """
+
     def on_layer_check():
+        """
+        Get the selected layer name or None for original data.
+
+        Returns
+        -------
+        str or None
+            Layer name if not "Original", otherwise None
+        """
         return input.hm1_layer() if input.hm1_layer() != "Original" else None
 
     def on_dendro_check():
-        '''
+        """
         Check if dendrogram is enabled and return the appropriate values.
-        If dendrogram is enabled, 
-            return a tuple (annotation dendrogram, feature dendrogram).
-        If dendrogram is disabled, 
-            return (None, None) to indicate that no dendrogram is available.
-        '''
+
+        Returns
+        -------
+        tuple of (bool, bool) or (None, None)
+            Annotation dendrogram and feature dendrogram flags.
+            Returns (None, None) if dendrogram is disabled.
+        """
         return (
             (input.hm1_anno_dendro(), input.hm1_feat_dendro())
             if input.hm1_dendogram()
@@ -25,7 +58,14 @@ def feat_vs_anno_server(input, output, session, shared):
 
     @reactive.calc
     def get_adata():
-        """Get the main AnnData object from shared state."""
+        """
+        Get the main AnnData object from shared state.
+
+        Returns
+        -------
+        anndata.AnnData
+            AnnData object reconstructed from shared data components
+        """
         return ad.AnnData(
             X=shared['X_data'].get(),
             obs=pd.DataFrame(shared['obs_data'].get()),
@@ -38,6 +78,17 @@ def feat_vs_anno_server(input, output, session, shared):
     @render.plot(alt="Heatmap Plot")
     @reactive.event(input.go_hm1, ignore_none=True)
     def spac_Heatmap():
+        """
+        Render heatmap of features vs annotations.
+
+        This function generates a clustered heatmap showing the relationship
+        between selected features (columns) and cell annotations (rows).
+
+        Returns
+        -------
+        matplotlib.figure.Figure or None
+            Heatmap figure with optional dendrograms, or None if generation fails
+        """
         adata = get_adata()
         if adata is None:
             return None

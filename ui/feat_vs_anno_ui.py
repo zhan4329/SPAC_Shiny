@@ -1,8 +1,23 @@
+"""
+Feature vs Annotation heatmap visualization UI module for SPAC Shiny application.
+
+This module defines the user interface components for generating and 
+customizing heatmaps using the hierarchical_heatmap function.
+"""
+
 from shiny import ui
 from utils.accessibility import accessible_slider
 
 
 def feat_vs_anno_ui():
+    """
+    Create the feature vs annotation heatmap visualization UI.
+
+    Returns
+    -------
+    shiny.ui.NavPanel
+        UI components for the feature vs annotation heatmap feature
+    """
     # 5. FEAT. VS ANNO. (Heatmap) ----------------------------
     return ui.nav_panel(
         "Feat. Vs Anno.",
