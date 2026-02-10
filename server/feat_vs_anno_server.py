@@ -69,8 +69,9 @@ def feat_vs_anno_server(input, output, session, shared):
 
         Returns
         -------
-        anndata.AnnData
+        anndata.AnnData or None
             AnnData object reconstructed from shared data components
+            Returns None if data is not loaded
         """
         x_data = shared['X_data'].get()
 
