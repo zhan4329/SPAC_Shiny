@@ -1,7 +1,8 @@
 """
-Feature vs Annotation heatmap visualization UI module for SPAC Shiny application.
+Feature vs Annotation heatmap visualization UI module for SPAC Shiny
+application.
 
-This module defines the user interface components for generating and 
+This module defines the user interface components for generating and
 customizing heatmaps using the hierarchical_heatmap function.
 """
 
@@ -66,19 +67,19 @@ def feat_vs_anno_ui():
                             },
                             ui.h4("Core Parameters",
                                 class_="accessible-heading"),
-                            
+
                             # Core functionality parameters
                             ui.input_select(
-                                "hm1_anno", 
-                                "Select an Annotation", 
+                                "hm1_anno",
+                                "Select an Annotation",
                                 choices=[]
                             ),
                             ui.input_select(
-                                "hm1_layer", 
-                                "Select a Table", 
+                                "hm1_layer",
+                                "Select a Table",
                                 choices=[]
                             ),
-                            
+
                             ui.hr(),
 
                             # Plot configuration in expandable section
@@ -91,18 +92,19 @@ def feat_vs_anno_ui():
                                 ui.panel_conditional(
                                     "input.hm1_show_plot_config",
                                     ui.input_select(
-                                        "hm1_cmap", 
-                                        "Select Color Map", 
+                                        "hm1_cmap",
+                                        "Select Color Map",
                                         choices=[
-                                            "viridis", "plasma", "inferno", "magma",
-                                            "cividis", "coolwarm", "RdYlBu", "Spectral",
-                                            "PiYG", "PRGn"
+                                            "viridis", "plasma", "inferno",
+                                            "magma", "cividis", "coolwarm",
+                                            "RdYlBu", "Spectral", "PiYG",
+                                            "PRGn"
                                         ],
                                         selected="viridis"
                                     ),  # Dropdown for color maps
                                     ui.input_checkbox(
-                                        "hm1_dendogram", 
-                                        "Include Dendrogram", 
+                                        "hm1_dendogram",
+                                        "Include Dendrogram",
                                         False
                                     ),
                                     ui.panel_conditional(
@@ -122,7 +124,7 @@ def feat_vs_anno_ui():
                                     ui.div(id="main-hm1_max_num"),
                                 ),
                             ),
-                            
+
                             ui.hr(),
 
                             # Axis settings in expandable section
@@ -142,10 +144,10 @@ def feat_vs_anno_ui():
                                         value=50
                                     ),
                                     ui.input_numeric(
-                                        "hm1_y_label_rotation", 
-                                        "Rotate Y Axis Labels (degrees)", 
-                                        min=0, 
-                                        max=90, 
+                                        "hm1_y_label_rotation",
+                                        "Rotate Y Axis Labels (degrees)",
+                                        min=0,
+                                        max=90,
                                         value=25
                                     ),
                                     ui.input_numeric(
@@ -154,7 +156,7 @@ def feat_vs_anno_ui():
                                         min=3,
                                         max=24,
                                         value=10
-                                    ),     
+                                    ),
                                     ui.input_checkbox(
                                         "hm1_enable_abbreviation",
                                         "Abbreviate Axis Labels",
@@ -197,8 +199,8 @@ def feat_vs_anno_ui():
                                 # "style": "padding-bottom: 100px;"
                             },
                             ui.output_plot(
-                                "spac_Heatmap", 
-                                width="100%", 
+                                "spac_Heatmap",
+                                width="100%",
                                 height="500px"
                             )
                         )

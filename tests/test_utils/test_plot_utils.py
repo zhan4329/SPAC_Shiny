@@ -8,7 +8,9 @@ import os
 from unittest.mock import MagicMock
 
 # Add project root to sys.path to allow importing 'utils'
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+)
 
 from utils.plot_utils import abbreviate_labels, apply_axis_style
 
@@ -22,7 +24,7 @@ class TestPlotUtils(unittest.TestCase):
         label1.get_text.return_value = "LongLabelName"
         label2 = MagicMock()
         label2.get_text.return_value = "Short"
-        
+
         result = abbreviate_labels([label1, label2], 4)
         expected = ["Long", "Shor"]
         self.assertEqual(result, expected)
@@ -36,7 +38,7 @@ class TestPlotUtils(unittest.TestCase):
         """Test that limit 0 returns empty strings."""
         label = MagicMock()
         label.get_text.return_value = "Anything"
-        
+
         result = abbreviate_labels([label], 0)
         self.assertEqual(result, [""])
 
@@ -44,7 +46,7 @@ class TestPlotUtils(unittest.TestCase):
         """Test that unicode/emojis are handled correctly."""
         label = MagicMock()
         label.get_text.return_value = "Gene_α_β"
-        
+
         # Python handles unicode chars as length 1
         result = abbreviate_labels([label], 6)
         self.assertEqual(result, ["Gene_α"])

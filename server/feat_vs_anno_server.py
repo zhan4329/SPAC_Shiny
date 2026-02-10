@@ -1,8 +1,8 @@
 """
 Feature vs Annotation heatmap visualization module for SPAC Shiny application.
 
-This module handles the server-side logic for generating heatmaps that 
-visualize features (genes/proteins) against cell annotations using the 
+This module handles the server-side logic for generating heatmaps that
+visualize features (genes/proteins) against cell annotations using the
 hierarchical_heatmap function.
 """
 
@@ -85,7 +85,7 @@ def feat_vs_anno_server(input, output, session, shared):
             layers=shared['layers_data'].get(),
             dtype=x_data.dtype
         )
-    
+
     @output
     @render.plot(alt="Heatmap Plot")
     @reactive.event(input.go_hm1, ignore_none=True)
@@ -99,12 +99,13 @@ def feat_vs_anno_server(input, output, session, shared):
         Returns
         -------
         matplotlib.figure.Figure or None
-            Heatmap figure with optional dendrograms, or None if generation fails
+            Heatmap figure with optional dendrograms, or None if
+            generation fails
         """
         # Validation: Ensure required inputs are present
         req(input.hm1_anno())
         req(input.hm1_layer())
-        
+
         adata = get_adata()
         if adata is None:
             return None
@@ -126,10 +127,14 @@ def feat_vs_anno_server(input, output, session, shared):
                 **kwargs
             )
         except ValueError as e:
-            logger.error(f"Heatmap generation failed with invalid parameters: {e}")
+            error_msg = ("Heatmap generation failed with invalid "
+                        f"parameters: {e}")
+            logger.error(error_msg)
             return None
         except Exception as e:
-            logger.error(f"Unexpected error during heatmap generation: {e}")
+            error_msg = ("Unexpected error during heatmap "
+                        f"generation: {e}")
+            logger.error(error_msg)
             return None
 
         if fig is None or not hasattr(fig, "ax_heatmap"):
@@ -154,14 +159,18 @@ def feat_vs_anno_server(input, output, session, shared):
             rotation=input.hm1_y_label_rotation(),
             verticalalignment='center'
         )
-        
+
         # Abbreviate labels if enabled
         if input.hm1_enable_abbreviation():
             limit = input.hm1_label_char_limit()
-            abbreviated_xticks = abbreviate_labels(fig.ax_heatmap.get_xticklabels(), limit)
-            fig.ax_heatmap.set_xticklabels(abbreviated_xticks, rotation=input.hm1_x_label_rotation())
-            abbreviated_yticks = abbreviate_labels(fig.ax_heatmap.get_yticklabels(), limit)
-            fig.ax_heatmap.set_yticklabels(abbreviated_yticks, rotation=input.hm1_y_label_rotation())
+            abbreviated_xticks = abbreviate_labels(
+                fig.ax_heatmap.get_xticklabels(), limit)
+            fig.ax_heatmap.set_xticklabels(
+                abbreviated_xticks, rotation=input.hm1_x_label_rotation())
+            abbreviated_yticks = abbreviate_labels(
+                fig.ax_heatmap.get_yticklabels(), limit)
+            fig.ax_heatmap.set_yticklabels(
+                abbreviated_yticks, rotation=input.hm1_y_label_rotation())
 
         # Set font size for axis labels
         axis_fontsize = input.hm1_axis_label_fontsize()
@@ -188,7 +197,8 @@ def feat_vs_anno_server(input, output, session, shared):
     @reactive.event(input.go_hm1, ignore_none=True)
     def download_button_ui_hm1():
         if shared['df_heatmap'].get() is not None:
-            return ui.download_button("download_df_hm1", "Download Data", class_="btn-warning")
+            return ui.download_button(
+                "download_df_hm1", "Download Data", class_="btn-warning")
         return None
 
     @reactive.effect
@@ -210,7 +220,7 @@ def feat_vs_anno_server(input, output, session, shared):
                 if input.hm1_layer() not in adata.layers:
                     return None
                 layer_data = adata.layers[input.hm1_layer()]
-    
+
             # Check if annotation exists in obs
             if input.hm1_anno() not in adata.obs:
                 return None
@@ -231,10 +241,10 @@ def feat_vs_anno_server(input, output, session, shared):
             ui.remove_ui("#inserted-hm1_max_num")
 
             min_num = ui.input_numeric(
-                "hm1_min_select", 
-                "Minimum", 
-                min_val, 
-                min=min_val, 
+                "hm1_min_select",
+                "Minimum",
+                min_val,
+                min=min_val,
                 max=max_val
             )
             ui.insert_ui(
@@ -242,12 +252,12 @@ def feat_vs_anno_server(input, output, session, shared):
                 selector="#main-hm1_min_num",
                 where="beforeEnd",
             )
-        
+
             max_num = ui.input_numeric(
-                "hm1_max_select", 
-                "Maximum", 
-                max_val, 
-                min=min_val, 
+                "hm1_max_select",
+                "Maximum",
+                max_val,
+                min=min_val,
                 max=max_val
             )
             ui.insert_ui(

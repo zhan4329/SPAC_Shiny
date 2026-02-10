@@ -34,10 +34,12 @@ def abbreviate_labels(labels: List[Text], limit: int) -> List[str]:
     >>> print(abbreviated)
     ['LongL', 'LongL', 'Short']
     """
-    return [label.get_text()[:limit] if label.get_text() else "" for label in labels]
+    return [label.get_text()[:limit] if label.get_text() else ""
+            for label in labels]
 
 
-def apply_axis_style(labels: List[Text], fontsize: int, fontfamily: str = "DejaVu Sans") -> None:
+def apply_axis_style(labels: List[Text], fontsize: int,
+                     fontfamily: str = "DejaVu Sans") -> None:
     """
     Apply font size and family to axis labels.
 
@@ -49,7 +51,7 @@ def apply_axis_style(labels: List[Text], fontsize: int, fontfamily: str = "DejaV
         Font size to apply.
     fontfamily : str, optional
         Font family to apply, by default "DejaVu Sans".
-    
+
     Examples
     --------
     >>> import matplotlib.pyplot as plt
