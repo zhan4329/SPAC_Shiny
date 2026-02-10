@@ -24,6 +24,15 @@ def abbreviate_labels(labels: List[Text], limit: int) -> List[str]:
     -------
     List[str]
         List of abbreviated label strings.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> fig, ax = plt.subplots()
+    >>> ax.set_xticklabels(["LongLabel1", "LongLabel2", "Short"])
+    >>> abbreviated = abbreviate_labels(ax.get_xticklabels(), limit=5)
+    >>> print(abbreviated)
+    ['LongL', 'LongL', 'Short']
     """
     return [label.get_text()[:limit] if label.get_text() else "" for label in labels]
 
@@ -40,6 +49,13 @@ def apply_axis_style(labels: List[Text], fontsize: int, fontfamily: str = "DejaV
         Font size to apply.
     fontfamily : str, optional
         Font family to apply, by default "DejaVu Sans".
+    
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> fig, ax = plt.subplots()
+    >>> ax.set_xlabel("X Label")
+    >>> apply_axis_style(ax.get_xticklabels(), fontsize=12)
     """
     for label in labels:
         label.set_fontsize(fontsize)
