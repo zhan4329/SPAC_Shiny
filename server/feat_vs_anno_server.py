@@ -167,8 +167,11 @@ def feat_vs_anno_server(input, output, session, shared):
         axis_fontsize = input.hm1_axis_label_fontsize()
         apply_axis_style(fig.ax_heatmap.get_xticklabels(), axis_fontsize)
         apply_axis_style(fig.ax_heatmap.get_yticklabels(), axis_fontsize)
-        
-        fig.fig.tight_layout(rect=[0.02, 0.02, 0.98, 0.98])  # Prevent the label to exceed the right border
+
+        # Adjust figure layout with small margins to prevent label clipping
+        # rect format: [left, bottom, right, top] as fraction of figure size
+        LAYOUT_RECT = (0.02, 0.02, 0.98, 0.98)
+        fig.fig.tight_layout(rect=LAYOUT_RECT)
         fig.fig.subplots_adjust(bottom=0.15, left=0)
         return fig
 

@@ -125,8 +125,6 @@ def feat_vs_anno_ui():
                             
                             ui.hr(),
 
-                            # TODO: Add figure configuration as in nearest_neighbor_ui.py
-
                             # Axis settings in expandable section
                             ui.div(
                                 ui.input_checkbox(
