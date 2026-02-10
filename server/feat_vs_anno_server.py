@@ -72,12 +72,18 @@ def feat_vs_anno_server(input, output, session, shared):
         anndata.AnnData
             AnnData object reconstructed from shared data components
         """
+        x_data = shared['X_data'].get()
+
+        # STOP THE CRASH: If data isn't loaded, don't access .dtype
+        if x_data is None:
+            return None
+
         return ad.AnnData(
-            X=shared['X_data'].get(),
+            X=x_data,
             obs=pd.DataFrame(shared['obs_data'].get()),
             var=pd.DataFrame(shared['var_data'].get()),
             layers=shared['layers_data'].get(),
-            dtype=shared['X_data'].get().dtype
+            dtype=x_data.dtype
         )
     
     @output
