@@ -6,7 +6,6 @@ customizing heatmaps using the hierarchical_heatmap function.
 """
 
 from shiny import ui
-from utils.accessibility import accessible_slider
 
 
 def feat_vs_anno_ui():
@@ -96,7 +95,7 @@ def feat_vs_anno_ui():
                                         "Select Color Map", 
                                         choices=[
                                             "viridis", "plasma", "inferno", "magma",
-                                            "cividis","coolwarm", "RdYlBu", "Spectral",
+                                            "cividis", "coolwarm", "RdYlBu", "Spectral",
                                             "PiYG", "PRGn"
                                         ],
                                         selected="viridis"
@@ -137,7 +136,6 @@ def feat_vs_anno_ui():
                                 ),
                                 ui.panel_conditional(
                                     "input.hm1_show_axis_settings",
-                                    # TODO: Decide whether to refactor it to input_numeric as in nn
                                     ui.input_numeric(
                                         "hm1_x_label_rotation",
                                         "Rotate X Axis Labels (degrees)",
