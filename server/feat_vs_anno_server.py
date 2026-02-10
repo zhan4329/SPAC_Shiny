@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 import logging
 import spac.visualization
+from utils.plot_utils import abbreviate_labels, apply_axis_style
 
 
 # Set up logger
@@ -149,9 +150,6 @@ def feat_vs_anno_server(input, output, session, shared):
         )
         
         # Abbreviate labels if enabled
-        def abbreviate_labels(labels, limit):
-            return [label.get_text()[:limit] if label.get_text() else "" for label in labels]
-
         if input.hm1_enable_abbreviation():
             limit = input.hm1_label_char_limit()
             abbreviated_xticks = abbreviate_labels(fig.ax_heatmap.get_xticklabels(), limit)
@@ -161,12 +159,8 @@ def feat_vs_anno_server(input, output, session, shared):
 
         # Set font size for axis labels
         axis_fontsize = input.hm1_axis_label_fontsize()
-        for label in fig.ax_heatmap.get_xticklabels():
-            label.set_fontsize(axis_fontsize)
-            label.set_fontfamily("DejaVu Sans")
-        for label in fig.ax_heatmap.get_yticklabels():
-            label.set_fontsize(axis_fontsize)
-            label.set_fontfamily("DejaVu Sans")
+        apply_axis_style(fig.ax_heatmap.get_xticklabels(), axis_fontsize)
+        apply_axis_style(fig.ax_heatmap.get_yticklabels(), axis_fontsize)
         
         fig.fig.tight_layout(rect=[0.02, 0.02, 0.98, 0.98])  # Prevent the label to exceed the right border
         fig.fig.subplots_adjust(bottom=0.15, left=0)
