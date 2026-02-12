@@ -263,7 +263,8 @@ def nearest_neighbor_server(input, output, session, shared):
             CSV bytes and content type
         """
         df = shared['df_nn'].get()
-        if df is not None and not df.empty:
+        if df is None:
+            return None
             csv_string = df.to_csv(index=False)
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"
@@ -281,10 +282,10 @@ def nearest_neighbor_server(input, output, session, shared):
             Download button UI or None if no data
         """
         df = shared['df_nn'].get()
-        if df is not None and not df.empty:
-            return ui.download_button(
-                "download_df_nn",
-                "Download Data",
-                class_="btn-warning"
-            )
-        return None
+        if df is None:
+            return None
+        return ui.download_button(
+            "download_df_nn",
+            "Download Data",
+            class_="btn-warning"
+        )

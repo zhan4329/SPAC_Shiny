@@ -188,11 +188,15 @@ def feat_vs_anno_server(input, output, session, shared):
     @render.download(filename="heatmap_data.csv")
     def download_df_hm1():
         df = shared['df_heatmap'].get()
-        if df is not None and not df.empty:
-            csv_string = df.to_csv(index=False)
-            csv_bytes = csv_string.encode("utf-8")
-            return csv_bytes, "text/csv"
-        return None
+        if df is None:
+            return None
+            
+        if df.empty:
+            return None
+
+        csv_string = df.to_csv(index=False)
+        csv_bytes = csv_string.encode("utf-8")
+        return csv_bytes, "text/csv"
 
     @render.ui
     @reactive.event(input.go_hm1, ignore_none=True)
