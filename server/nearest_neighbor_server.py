@@ -265,10 +265,9 @@ def nearest_neighbor_server(input, output, session, shared):
         df = shared['df_nn'].get()
         if df is None:
             return None
-            csv_string = df.to_csv(index=False)
-            csv_bytes = csv_string.encode("utf-8")
-            return csv_bytes, "text/csv"
-        return None
+        csv_string = df.to_csv(index=False)
+        csv_bytes = csv_string.encode("utf-8")
+        return csv_bytes, "text/csv"
 
     @render.ui
     @reactive.event(input.go_nn_viz, ignore_none=True)
