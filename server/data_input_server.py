@@ -32,6 +32,14 @@ def data_input_server(input, output, session, shared):
         print("Updating Parts")
         adata = shared['adata_main'].get()
         if adata is not None:
+            # Bump dataset_version so all visualization cache entries from
+            # the previous dataset are treated as stale.  The explicit
+            # invalidate() call reclaims memory immediately rather than
+            # waiting for LRU eviction to remove each old entry.
+            new_version = shared['dataset_version'].get() + 1
+            shared['dataset_version'].set(new_version)
+            shared['cache'].invalidate()
+            print(f"Dataset updated — version={new_version}, cache cleared")
 
             if hasattr(adata, 'X'):
                 shared['X_data'].set(adata.X)

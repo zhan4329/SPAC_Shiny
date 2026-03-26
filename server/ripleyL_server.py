@@ -60,49 +60,64 @@ def ripleyL_server(input, output, session, shared):
         else:
             regions_labels = []
 
-        # Simulations: controlled by 'show_sim_rl' checkbox in the UI
         plot_simulations = bool(input.show_sim_rl())
 
-        # No slide stratification: operate on the full AnnData or the
-        # region-subset above. Slide-specific stratification was removed.
+        cache = shared['cache']
+        version = shared['dataset_version'].get()
 
-        # Register adata in memory registry and call run_from_json
-        try:
-            virtual_path = register_memory_object(adata)
+        params = {
+            'center': center,
+            'neighbor': neighbor,
+            'plot_specific_regions': plot_specific_regions,
+            'regions_labels': (
+                tuple(sorted(regions_labels))
+                if regions_labels else ()
+            ),
+            'plot_simulations': plot_simulations,
+        }
 
-            params = {
-                "Upstream_Analysis": virtual_path,
-                "Center_Phenotype": center,
-                "Neighbor_Phenotype": neighbor,
-                "Plot_Specific_Regions": plot_specific_regions,
-                "Regions_Labels": regions_labels,
-                "Plot_Simulations": plot_simulations,
-            }
+        def compute():
+            try:
+                virtual_path = register_memory_object(adata)
 
-            # Call template to get figure and dataframe in-memory
-            figs_df: Tuple[Any, Any] = run_from_json(
-                json_path=params, save_results=False, show_plot=False
-            )
-            if figs_df is None:
-                return None
+                ripley_params = {
+                    "Upstream_Analysis": virtual_path,
+                    "Center_Phenotype": center,
+                    "Neighbor_Phenotype": neighbor,
+                    "Plot_Specific_Regions": plot_specific_regions,
+                    "Regions_Labels": list(regions_labels),
+                    "Plot_Simulations": plot_simulations,
+                }
 
-            fig, df = figs_df
-            # Store dataframe for download
-            shared['df_ripley'].set(df)
+                figs_df: Tuple[Any, Any] = run_from_json(
+                    json_path=ripley_params,
+                    save_results=False,
+                    show_plot=False
+                )
+                if figs_df is None:
+                    return None, None
 
-            return fig
+                fig, df = figs_df
+                return fig, df
 
-        except Exception:
-            import traceback
-            traceback.print_exc()
+            except Exception:
+                import traceback
+                traceback.print_exc()
+                return None, None
+
+            finally:
+                try:
+                    unregister_memory_object(virtual_path)
+                except Exception:
+                    pass
+
+        fig, df = cache.get_or_compute('ripley_l', version, params, compute)
+
+        if fig is None:
             return None
 
-        finally:
-            try:
-                unregister_memory_object(virtual_path)
-            except Exception:
-                # ignore cleanup errors
-                pass
+        shared['df_ripley'].set(df)
+        return fig
 
     @render.download(filename="ripley_plot_data.csv")
     def download_df_rl():

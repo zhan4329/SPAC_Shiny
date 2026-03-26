@@ -52,7 +52,6 @@ def scatterplot_server(input, output, session, shared):
         return None
 
 
-
     @reactive.Calc
     def get_scatterplot_coordinates_y():
         adata = shared['adata_main'].get()
@@ -83,8 +82,8 @@ def scatterplot_server(input, output, session, shared):
         if btn and not scatter_ui_initialized.get():
             # Insert the color selection dropdown if not already initialized
             dropdown = ui.input_select(
-                "scatter_color", 
-                "Select Feature", 
+                "scatter_color",
+                "Select Feature",
                 choices=shared['var_names'].get()
             )
             ui.insert_ui(
@@ -104,38 +103,62 @@ def scatterplot_server(input, output, session, shared):
         if selected_feature is None:
             return None
         adata = ad.AnnData(
-            X=shared['X_data'].get(), 
+            X=shared['X_data'].get(),
             var=pd.DataFrame(shared['var_data'].get())
         )
         if selected_feature in adata.var_names:
             column_index = adata.var_names.get_loc(selected_feature)
             color_values = adata.X[:, column_index]
             return color_values
-        return None 
+        return None
 
     @output
     @render.plot
     @reactive.event(input.go_scatter, ignore_none=True)
     def spac_Scatter():
-        x = get_scatterplot_coordinates_x()
-        y = get_scatterplot_coordinates_y()
+        x_data = shared['X_data'].get()
+        if x_data is None:
+            return None
+
+        cache = shared['cache']
+        version = shared['dataset_version'].get()
+
         color_enabled = input.scatter_color_check()
-        x_label = input.scatter_x()
-        y_label = input.scatter_y()
-        title = f"Scatterplot: {x_label} vs {y_label}"
 
-        if color_enabled:
-            fig, ax = spac.visualization.visualize_2D_scatter(
-                x, y, labels=get_color_values()
-            )
-            for a in fig.axes:
-                if hasattr(a, "get_ylabel") and a != ax:
-                    a.set_ylabel(f"Colored by: {input.scatter_color()}")
-        else:
-            fig, ax = spac.visualization.visualize_2D_scatter(x, y)
+        try:
+            color_feature = input.scatter_color() if color_enabled else None
+        except Exception:
+            color_feature = None
 
-        ax.set_title(title, fontsize=14)
-        ax.set_xlabel(x_label)
-        ax.set_ylabel(y_label)
+        params = {
+            'x_selection': input.scatter_x(),
+            'y_selection': input.scatter_y(),
+            'layer': input.scatter_layer(),
+            'color_enabled': color_enabled,
+            'color_feature': color_feature,
+        }
 
-        return ax
+        def compute():
+            x = get_scatterplot_coordinates_x()
+            y = get_scatterplot_coordinates_y()
+            x_label = params['x_selection']
+            y_label = params['y_selection']
+            title = f"Scatterplot: {x_label} vs {y_label}"
+
+            if color_enabled:
+                fig, ax = spac.visualization.visualize_2D_scatter(
+                    x, y, labels=get_color_values()
+                )
+                for a in fig.axes:
+                    if hasattr(a, "get_ylabel") and a != ax:
+                        a.set_ylabel(f"Colored by: {color_feature}")
+            else:
+                fig, ax = spac.visualization.visualize_2D_scatter(x, y)
+
+            ax.set_title(title, fontsize=14)
+            ax.set_xlabel(x_label)
+            ax.set_ylabel(y_label)
+            return fig, None
+
+        fig, _ = cache.get_or_compute('scatterplot', version, params, compute)
+        return fig
