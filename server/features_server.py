@@ -30,6 +30,8 @@ def features_server(input, output, session, shared):
         btn_log_x = input.h1_log_x()
         btn_log_y = input.h1_log_y()
         layer = on_layer_check()
+        stat=input.h1_stat()
+        element=input.h1_element()
 
         kwargs = {
             "adata": adata,
@@ -37,8 +39,10 @@ def features_server(input, output, session, shared):
             "layer": layer,
             "x_log_scale": btn_log_x,
             "y_log_scale": btn_log_y,
+            "element": element,
+            "stat": stat,
         }
-
+        
         if input.h1_group_by_check():
             kwargs["group_by"] = input.h1_anno()
             kwargs["together"] = input.h1_together_check()
