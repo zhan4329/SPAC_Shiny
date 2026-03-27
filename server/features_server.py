@@ -8,7 +8,19 @@ import spac.visualization
 def features_server(input, output, session, shared):
     def on_layer_check():
         return input.h1_layer() if input.h1_layer() != "Original" else None
+    # ▼▼▼ ADD HERE — at the top, before any @output functions ▼▼▼
+    @reactive.effect
+    @reactive.event(input.feat_slider)
+    def sync_slider_to_num():
+        ui.update_numeric("feat_slider_num", value=input.feat_slider())
 
+    @reactive.effect
+    @reactive.event(input.feat_slider_num)
+    def sync_num_to_slider():
+        val = input.feat_slider_num()
+        if val is not None and 0 <= val <= 90:
+            ui.update_slider("feat_slider", value=val)
+    # ▲▲▲ END OF NEW BLOCK ▲▲▲
 
     @output
     @render.plot
@@ -42,7 +54,7 @@ def features_server(input, output, session, shared):
             "element": element,
             "stat": stat,
         }
-        
+
         if input.h1_group_by_check():
             kwargs["group_by"] = input.h1_anno()
             kwargs["together"] = input.h1_together_check()

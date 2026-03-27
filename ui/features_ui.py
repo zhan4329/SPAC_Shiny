@@ -42,6 +42,8 @@ def features_ui():
                         ui.div(id="main-h1_dropdown"),
                         ui.div(id="main-h1_check"),
                         ui.div(id="main-h1_together_drop"),
+
+                        ui.div(
                         accessible_slider(
                             "feat_slider",
                             "Rotate X-axis Labels (degrees)",
@@ -50,6 +52,15 @@ def features_ui():
                             value=0,
                             step=1
                         ),
+                        ui.input_numeric(
+                            "feat_slider_num",
+                            "Or",
+                            value=0,
+                            min=0,
+                            max=90,
+                            step=1
+                        ),
+                    ),
 
                         ui.hr(),  # ← separator before new sections
 
