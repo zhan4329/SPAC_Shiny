@@ -50,6 +50,60 @@ def features_ui():
                             value=0,
                             step=1
                         ),
+
+                        ui.hr(),  # ← separator before new sections
+
+                        # NEW: Stat Settings 
+                        ui.div(
+                            ui.input_checkbox(
+                                "h1_show_stat",
+                                "Show Stat Settings",
+                                value=False
+                            ),
+                            ui.panel_conditional(
+                                "input.h1_show_stat",
+                                ui.input_select(
+                                    "h1_stat",
+                                    "Statistical Transformation",
+                                    choices={
+                                        "count":       "Count — Number of observations per bin",
+                                        "frequency":   "Frequency — Count divided by bin width",
+                                        "density":     "Density — Total area normalized to 1",
+                                        "probability": "Probability — Bar height as observation probability",
+                                    },
+                                    selected="count"
+                                ),
+                            ),
+                        ),
+                        # END: Stat Settings 
+
+                        ui.hr(),
+
+                        # NEW: Element Settings
+                        ui.div(
+                            ui.input_checkbox(
+                                "h1_show_element",
+                                "Show Element Settings",
+                                value=False
+                            ),
+                            ui.panel_conditional(
+                                "input.h1_show_element",
+                                ui.input_select(
+                                    "h1_element",
+                                    "Visual Representation of Bins",
+                                    choices={
+                                        "bars": "Bars — Standard bar-style histogram (default)",
+                                        "step": "Step — Step line plot without bars",
+                                        "poly": "Poly — Polygon with x-axis as bottom edge",
+                                    },
+                                    selected="bars"
+                                ),
+                            ),
+                        ),
+                        # END: Element Settings ▲▲▲
+
+                        ui.hr(),  # ← separator before action button
+
                         ui.input_action_button(
                             "go_h1",
                             "Render Plot",
