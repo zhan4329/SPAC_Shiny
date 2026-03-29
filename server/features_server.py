@@ -8,7 +8,26 @@ import spac.visualization
 def features_server(input, output, session, shared):
     def on_layer_check():
         return input.h1_layer() if input.h1_layer() != "Original" else None
-    # ▼▼▼ ADD HERE — at the top, before any @output functions ▼▼▼
+
+    def get_bins_value():
+        bins_type = input.h1_bins_type()
+
+        if bins_type == "auto":
+            return None
+
+        elif bins_type == "number":
+            val = input.h1_bins_number()
+            return int(val) if val is not None else None
+
+        elif bins_type == "list":
+            raw = input.h1_bins_list()
+            if not raw or not raw.strip():
+                return None
+            try:
+                return [float(x.strip()) for x in raw.split(",") if x.strip()]
+            except ValueError:
+                return None
+
     @reactive.effect
     @reactive.event(input.feat_slider)
     def sync_slider_to_num():
@@ -20,17 +39,16 @@ def features_server(input, output, session, shared):
         val = input.feat_slider_num()
         if val is not None and 0 <= val <= 90:
             ui.update_slider("feat_slider", value=val)
-    # ▲▲▲ END OF NEW BLOCK ▲▲▲
 
     @output
     @render.plot
     @reactive.event(input.go_h1, ignore_none=True)
     def spac_Histogram_1():
         adata = ad.AnnData(
-            X=shared['X_data'].get(), 
-            obs=pd.DataFrame(shared['obs_data'].get()), 
-            var=pd.DataFrame(shared['var_data'].get()), 
-            layers=shared['layers_data'].get(), 
+            X=shared['X_data'].get(),
+            obs=pd.DataFrame(shared['obs_data'].get()),
+            var=pd.DataFrame(shared['var_data'].get()),
+            layers=shared['layers_data'].get(),
             dtype=shared['X_data'].get().dtype
         )
 
@@ -42,8 +60,11 @@ def features_server(input, output, session, shared):
         btn_log_x = input.h1_log_x()
         btn_log_y = input.h1_log_y()
         layer = on_layer_check()
-        stat=input.h1_stat()
-        element=input.h1_element()
+        stat = input.h1_stat()
+        element = input.h1_element()
+
+        # call get_bins_value() and add to kwargs
+        bins_val = get_bins_value()
 
         kwargs = {
             "adata": adata,
@@ -55,12 +76,16 @@ def features_server(input, output, session, shared):
             "stat": stat,
         }
 
+        # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
+        if bins_val is not None:
+            kwargs["bins"] = bins_val
+
         if input.h1_group_by_check():
             kwargs["group_by"] = input.h1_anno()
             kwargs["together"] = input.h1_together_check()
             if input.h1_together_check():
                 kwargs["multiple"] = input.h1_together_drop()
-        
+
         fig1, ax, df = spac.visualization.histogram(**kwargs).values()
 
         axes = ax if isinstance(ax, (list, np.ndarray)) else [ax]
@@ -72,7 +97,6 @@ def features_server(input, output, session, shared):
 
     histogram_ui_initialized = reactive.Value(False)
 
-
     @render.download(filename="features_histogram_data.csv")
     def download_histogram1_df():
         df = shared['df_histogram1'].get()
@@ -82,18 +106,16 @@ def features_server(input, output, session, shared):
             return csv_bytes, "text/csv"
         return None
 
-
     @render.ui
     @reactive.event(input.go_h1, ignore_none=True)
     def download_histogram1_button_ui():
         if shared['df_histogram1'].get() is not None:
             return ui.download_button(
-                "download_histogram1_df", 
-                "Download Data", 
+                "download_histogram1_df",
+                "Download Data",
                 class_="btn-warning"
             )
         return None
-
 
     @reactive.effect
     def histogram_reactivity():
@@ -102,8 +124,8 @@ def features_server(input, output, session, shared):
 
         if btn and not ui_initialized:
             dropdown = ui.input_select(
-                "h1_anno", 
-                "Select an Annotation", 
+                "h1_anno",
+                "Select an Annotation",
                 choices=shared['obs_names'].get()
             )
             ui.insert_ui(
@@ -113,8 +135,8 @@ def features_server(input, output, session, shared):
             )
 
             together_check = ui.input_checkbox(
-                "h1_together_check", 
-                "Plot Together", 
+                "h1_together_check",
+                "Plot Together",
                 value=True
             )
             ui.insert_ui(
@@ -122,7 +144,6 @@ def features_server(input, output, session, shared):
                 selector="#main-h1_check",
                 where="beforeEnd",
             )
-
             histogram_ui_initialized.set(True)
 
         elif not btn and ui_initialized:
@@ -131,23 +152,23 @@ def features_server(input, output, session, shared):
             ui.remove_ui("#inserted-dropdown_together")
             histogram_ui_initialized.set(False)
 
-
     @reactive.effect
     @reactive.event(input.h1_together_check)
     def update_stack_type_dropdown():
         if input.h1_together_check():
             dropdown_together = ui.input_select(
-                "h1_together_drop", 
-                "Select Stack Type", 
-                choices=['stack', 'layer', 'dodge', 'fill'], 
+                "h1_together_drop",
+                "Select Stack Type",
+                choices=['stack', 'layer', 'dodge', 'fill'],
                 selected='stack'
             )
             ui.insert_ui(
                 ui.div(
-                    {"id": "inserted-dropdown_together"}, 
+                    {"id": "inserted-dropdown_together"},
                     dropdown_together
                 ),
                 selector="#main-h1_together_drop",
-                where="beforeEnd",)      
+                where="beforeEnd",
+            )
         else:
             ui.remove_ui("#inserted-dropdown_together")
