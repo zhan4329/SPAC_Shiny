@@ -61,6 +61,52 @@ def features_ui():
                             step=1
                         ),
                     ),
+                    # NEW: Bins Settings
+                        ui.div(
+                            ui.input_checkbox(
+                                "h1_show_bins",
+                                "Show Bins Settings",
+                                value=False
+                            ),
+                            ui.panel_conditional(
+                                "input.h1_show_bins",
+                                ui.input_radio_buttons(
+                                    "h1_bins_type",
+                                    "Bins Input Type",
+                                    choices={
+                                        "auto":   "Auto — Determined automatically",
+                                        "number": "Number — Set number of bins",
+                                        "list":   "List — Set custom bin edges",
+                                    },
+                                    selected="auto"
+                                ),
+                                # Show numeric input when "number" is selected
+                                ui.panel_conditional(
+                                    "input.h1_bins_type === 'number'",
+                                    ui.input_numeric(
+                                        "h1_bins_number",
+                                        "Number of Bins",
+                                        value=10,
+                                        min=1,
+                                        step=1
+                                    ),
+                                ),
+                                # Show text input when "list" is selected
+                                ui.panel_conditional(
+                                    "input.h1_bins_type === 'list'",
+                                    ui.input_text(
+                                        "h1_bins_list",
+                                        "Bin Edges (comma-separated)",
+                                        placeholder="e.g. 0, 1, 2, 3"
+                                    ),
+                                    ui.tags.small(
+                                        {"style": "color: #6c757d;"},
+                                        "Creates bins: [0,1), [1,2), [2,3]"
+                                    ),
+                                ),
+                            ),
+                        ),
+                        # END: Bins Settings
 
                         ui.hr(),  # ← separator before new sections
 
