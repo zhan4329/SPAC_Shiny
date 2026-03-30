@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import logging
 import spac.visualization
-from utils.plot_utils import abbreviate_labels, apply_axis_style
+from utils.plot_utils import abbreviate_labels, apply_axis_style, fig_to_png_bytes, png_bytes_to_figure
 
 
 # Set up logger
@@ -206,15 +206,15 @@ def feat_vs_anno_server(input, output, session, shared):
             fig.fig.tight_layout(rect=LAYOUT_RECT)
             fig.fig.subplots_adjust(bottom=0.15, left=0)
 
-            return fig, df
+            return fig_to_png_bytes(fig), df
 
-        fig, df = cache.get_or_compute('heatmap', version, params, compute)
+        img_bytes, df = cache.get_or_compute('heatmap', version, params, compute)
 
-        if fig is None:
+        if img_bytes is None:
             return None
 
         shared['df_heatmap'].set(df)
-        return fig
+        return png_bytes_to_figure(img_bytes)
 
     @render.download(filename="heatmap_data.csv")
     def download_df_hm1():

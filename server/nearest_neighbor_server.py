@@ -6,6 +6,7 @@ neighbor distances using the visualize_nearest_neighbor_template functionality.
 """
 
 from shiny import ui, render, reactive, req
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def nearest_neighbor_server(input, output, session, shared):
@@ -179,24 +180,27 @@ def nearest_neighbor_server(input, output, session, shared):
         font_size_val = input.nn_x_title_fontsize()
 
         params = {
-            'source_label': source_label,
-            'target_labels': (
+            "Annotation": annotation,
+            "Source_Anchor_Cell_Label": source_label,
+            "Target_Cell_Label": (
                 tuple(sorted(target_labels)) if target_labels else None
             ),
-            'annotation': annotation,
-            'image_id': image_id,
-            'plot_method': input.nn_plot_method(),
-            'plot_type': get_plot_type(),
-            'log_scale': input.nn_log_scale(),
-            'facet_plot': input.nn_facet_plot(),
-            'x_axis_rotation': input.nn_x_axis_rotation(),
-            'shared_x_title': input.nn_shared_x_title(),
-            'x_title_fontsize': font_size_val if font_size_val else None,
-            'color_mapping': color_mapping,
-            'figure_width': input.nn_figure_width(),
-            'figure_height': input.nn_figure_height(),
-            'figure_dpi': input.nn_figure_dpi(),
-            'font_size': input.nn_font_size(),
+            "ImageID": image_id or "None",
+            "Plot_Method": input.nn_plot_method(),
+            "Plot_Type": get_plot_type(),
+            "Nearest_Neighbor_Associated_Table": "spatial_distance",
+            "Log_Scale": input.nn_log_scale(),
+            "Facet_Plot": input.nn_facet_plot(),
+            "X_Axis_Label_Rotation": input.nn_x_axis_rotation(),
+            "Shared_X_Axis_Title_": input.nn_shared_x_title(),
+            "X_Axis_Title_Font_Size": (
+                font_size_val if font_size_val else "None"
+            ),
+            "Defined_Color_Mapping": color_mapping or "None",
+            "Figure_Width": input.nn_figure_width(),
+            "Figure_Height": input.nn_figure_height(),
+            "Figure_DPI": input.nn_figure_dpi(),
+            "Font_Size": input.nn_font_size(),
         }
 
         def compute():
@@ -213,30 +217,11 @@ def nearest_neighbor_server(input, output, session, shared):
 
                 nn_params = {
                     "Upstream_Analysis": virtual_path,
-                    "Annotation": annotation,
-                    "Source_Anchor_Cell_Label": source_label,
+                    **params,
                     "Target_Cell_Label": (
-                        ",".join(target_labels)
-                        if target_labels else "All"
+                        ",".join(params["Target_Cell_Label"])
+                        if params["Target_Cell_Label"] else "All"
                     ),
-                    "ImageID": image_id or "None",
-                    "Plot_Method": params['plot_method'],
-                    "Plot_Type": params['plot_type'],
-                    "Nearest_Neighbor_Associated_Table": "spatial_distance",
-                    "Log_Scale": params['log_scale'],
-                    "Facet_Plot": params['facet_plot'],
-                    "X_Axis_Label_Rotation": params['x_axis_rotation'],
-                    "Shared_X_Axis_Title_": params['shared_x_title'],
-                    "X_Axis_Title_Font_Size": (
-                        params['x_title_fontsize']
-                        if params['x_title_fontsize']
-                        else "None"
-                    ),
-                    "Defined_Color_Mapping": color_mapping or "None",
-                    "Figure_Width": params['figure_width'],
-                    "Figure_Height": params['figure_height'],
-                    "Figure_DPI": params['figure_dpi'],
-                    "Font_Size": params['font_size'],
                 }
 
                 try:
@@ -256,22 +241,22 @@ def nearest_neighbor_server(input, output, session, shared):
                 if fig is None:
                     return None, None
 
-                return fig, df_data
+                return fig_to_png_bytes(fig), df_data
 
             except Exception:
                 import traceback
                 traceback.print_exc()
                 return None, None
 
-        fig, df = cache.get_or_compute(
+        img_bytes, df = cache.get_or_compute(
             'nearest_neighbor', version, params, compute
         )
 
-        if fig is None:
+        if img_bytes is None:
             return None
 
         shared['df_nn'].set(df)
-        return fig
+        return png_bytes_to_figure(img_bytes)
 
     @render.download(filename="nearest_neighbor_data.csv")
     def download_df_nn():

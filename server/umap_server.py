@@ -2,6 +2,7 @@ from shiny import ui, render, reactive
 import anndata as ad
 import pandas as pd
 import spac.visualization
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def umap_server(input, output, session, shared):
@@ -73,7 +74,7 @@ def umap_server(input, output, session, shared):
                         extra_ax.set_ylabel(
                             f"Colored by: {feature.upper()}", fontsize=12
                         )
-                return fig, None
+                return fig_to_png_bytes(fig), None
 
             elif mode == "Annotation" and annotation:
                 fig, ax = spac.visualization.dimensionality_reduction_plot(
@@ -85,12 +86,14 @@ def umap_server(input, output, session, shared):
                 ax.set_title(f"{method.upper()}: {annotation}", fontsize=14)
                 ax.set_xlabel(f"{method.upper()} 1")
                 ax.set_ylabel(f"{method.upper()} 2")
-                return fig, None
+                return fig_to_png_bytes(fig), None
 
             return None, None
 
-        fig, _ = cache.get_or_compute('umap1', version, params, compute)
-        return fig
+        img_bytes, _ = cache.get_or_compute('umap1', version, params, compute)
+        if img_bytes is None:
+            return None
+        return png_bytes_to_figure(img_bytes)
 
     # Track the UI state
     umap_annotation_initialized = reactive.Value(False)
@@ -236,7 +239,7 @@ def umap_server(input, output, session, shared):
                         extra_ax.set_ylabel(
                             f"Colored by: {feature}", fontsize=12
                         )
-                return fig, None
+                return fig_to_png_bytes(fig), None
 
             elif mode == "Annotation" and annotation:
                 fig, ax = spac.visualization.dimensionality_reduction_plot(
@@ -248,12 +251,14 @@ def umap_server(input, output, session, shared):
                 ax.set_title(f"{method.upper()}: {annotation}", fontsize=14)
                 ax.set_xlabel(f"{method.upper()} 1")
                 ax.set_ylabel(f"{method.upper()} 2")
-                return fig, None
+                return fig_to_png_bytes(fig), None
 
             return None, None
 
-        fig, _ = cache.get_or_compute('umap2', version, params, compute)
-        return fig
+        img_bytes, _ = cache.get_or_compute('umap2', version, params, compute)
+        if img_bytes is None:
+            return None
+        return png_bytes_to_figure(img_bytes)
 
     # Track the UI state
     umap2_annotation_initialized = reactive.Value(False)

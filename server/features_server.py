@@ -3,6 +3,7 @@ import anndata as ad
 import numpy as np
 import pandas as pd
 import spac.visualization
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def features_server(input, output, session, shared):
@@ -86,15 +87,15 @@ def features_server(input, output, session, shared):
                     rotation=params['rotation'],
                     labelsize=10
                 )
-            return fig1, df
+            return fig_to_png_bytes(fig1), df
 
-        fig, df = cache.get_or_compute('histogram1', version, params, compute)
+        img_bytes, df = cache.get_or_compute('histogram1', version, params, compute)
 
-        if fig is None:
+        if img_bytes is None:
             return None
 
         shared['df_histogram1'].set(df)
-        return fig
+        return png_bytes_to_figure(img_bytes)
 
     histogram_ui_initialized = reactive.Value(False)
 

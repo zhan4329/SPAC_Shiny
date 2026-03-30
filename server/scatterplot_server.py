@@ -2,6 +2,7 @@ from shiny import ui, render, reactive
 import anndata as ad
 import pandas as pd
 import spac.visualization
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def scatterplot_server(input, output, session, shared):
@@ -158,7 +159,9 @@ def scatterplot_server(input, output, session, shared):
             ax.set_title(title, fontsize=14)
             ax.set_xlabel(x_label)
             ax.set_ylabel(y_label)
-            return fig, None
+            return fig_to_png_bytes(fig), None
 
-        fig, _ = cache.get_or_compute('scatterplot', version, params, compute)
-        return fig
+        img_bytes, _ = cache.get_or_compute('scatterplot', version, params, compute)
+        if img_bytes is None:
+            return None
+        return png_bytes_to_figure(img_bytes)

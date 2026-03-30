@@ -7,6 +7,7 @@ from utils.template_wrapper import (
     unregister_memory_object,
 )
 from spac.templates.visualize_ripley_template import run_from_json
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def ripleyL_server(input, output, session, shared):
@@ -66,14 +67,13 @@ def ripleyL_server(input, output, session, shared):
         version = shared['dataset_version'].get()
 
         params = {
-            'center': center,
-            'neighbor': neighbor,
-            'plot_specific_regions': plot_specific_regions,
-            'regions_labels': (
-                tuple(sorted(regions_labels))
-                if regions_labels else ()
+            "Center_Phenotype": center,
+            "Neighbor_Phenotype": neighbor,
+            "Plot_Specific_Regions": plot_specific_regions,
+            "Regions_Labels": (
+                tuple(sorted(regions_labels)) if regions_labels else ()
             ),
-            'plot_simulations': plot_simulations,
+            "Plot_Simulations": plot_simulations,
         }
 
         def compute():
@@ -82,11 +82,8 @@ def ripleyL_server(input, output, session, shared):
 
                 ripley_params = {
                     "Upstream_Analysis": virtual_path,
-                    "Center_Phenotype": center,
-                    "Neighbor_Phenotype": neighbor,
-                    "Plot_Specific_Regions": plot_specific_regions,
-                    "Regions_Labels": list(regions_labels),
-                    "Plot_Simulations": plot_simulations,
+                    **params,
+                    "Regions_Labels": list(params["Regions_Labels"]),
                 }
 
                 figs_df: Tuple[Any, Any] = run_from_json(
@@ -98,7 +95,7 @@ def ripleyL_server(input, output, session, shared):
                     return None, None
 
                 fig, df = figs_df
-                return fig, df
+                return fig_to_png_bytes(fig), df
 
             except Exception:
                 import traceback
@@ -111,13 +108,13 @@ def ripleyL_server(input, output, session, shared):
                 except Exception:
                     pass
 
-        fig, df = cache.get_or_compute('ripley_l', version, params, compute)
+        img_bytes, df = cache.get_or_compute('ripley_l', version, params, compute)
 
-        if fig is None:
+        if img_bytes is None:
             return None
 
         shared['df_ripley'].set(df)
-        return fig
+        return png_bytes_to_figure(img_bytes)
 
     @render.download(filename="ripley_plot_data.csv")
     def download_df_rl():

@@ -1,6 +1,7 @@
 from shiny import ui, render, reactive
 import numpy as np
 import spac.visualization
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 
 
 def annotations_server(input, output, session, shared):
@@ -67,15 +68,15 @@ def annotations_server(input, output, session, shared):
                     rotation=params['rotation'],
                     labelsize=10
                 )
-            return fig, df
+            return fig_to_png_bytes(fig), df
 
-        fig, df = cache.get_or_compute('histogram2', version, params, compute)
+        img_bytes, df = cache.get_or_compute('histogram2', version, params, compute)
 
-        if fig is None:
+        if img_bytes is None:
             return None
 
         shared['df_histogram2'].set(df)
-        return fig
+        return png_bytes_to_figure(img_bytes)
 
 
     @render.ui
