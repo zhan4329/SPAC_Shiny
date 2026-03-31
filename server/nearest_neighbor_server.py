@@ -183,7 +183,7 @@ def nearest_neighbor_server(input, output, session, shared):
             "Annotation": annotation,
             "Source_Anchor_Cell_Label": source_label,
             "Target_Cell_Label": (
-                tuple(sorted(target_labels)) if target_labels else None
+                tuple(target_labels) if target_labels else None
             ),
             "ImageID": image_id or "None",
             "Plot_Method": input.nn_plot_method(),
