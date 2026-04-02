@@ -35,6 +35,7 @@ Usage (inside a @render.* function)
 from __future__ import annotations
 
 import logging
+import time
 from collections import OrderedDict
 from typing import Any, Callable, Dict, Hashable, Tuple
 
@@ -141,14 +142,20 @@ class VisualizationCache:
         object
             The cached or freshly computed result.
         """
+        t0 = time.perf_counter()
         key = self._make_key(viz_name, dataset_version, params)
 
         if key in self._cache:
             # Promote to most-recently-used position
             self._cache.move_to_end(key)
+            elapsed = time.perf_counter() - t0
             logger.debug(
                 "Cache HIT  [%s] (version=%s, cache_size=%d)",
                 viz_name, dataset_version, len(self._cache),
+            )
+            logger.info(
+                "Time taken to retrieve %s from cache: %.6f seconds",
+                viz_name, elapsed,
             )
             return self._cache[key]
 
