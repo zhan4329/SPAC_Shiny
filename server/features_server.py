@@ -6,8 +6,8 @@ import spac.visualization
 
 
 def features_server(input, output, session, shared):
-    def on_layer_check():
-        return input.h1_layer() if input.h1_layer() != "Original" else None
+    # def on_layer_check():
+    #     return input.h1_layer() if input.h1_layer() != "Original" else None
 
     def get_bins_value():
         bins_type = input.h1_bins_type()
@@ -27,7 +27,19 @@ def features_server(input, output, session, shared):
                 return [float(x.strip()) for x in raw.split(",") if x.strip()]
             except ValueError:
                 return None
+    @reactive.calc
+    def get_layer():
+        """
+        Return None for 'Original', otherwise return selected layer.
 
+        Returns
+        -------
+        str or None
+            Selected layer name or None for original data
+        """
+        layer = input.h1_layer()
+        return None if layer == "Original" else layer
+    
     @reactive.effect
     @reactive.event(input.feat_slider)
     def sync_slider_to_num():
@@ -55,45 +67,86 @@ def features_server(input, output, session, shared):
         if adata is None:
             return None
 
-        feature = input.h1_feat()
-        rotation = input.feat_slider()
-        btn_log_x = input.h1_log_x()
-        btn_log_y = input.h1_log_y()
-        layer = on_layer_check()
-        stat = input.h1_stat()
-        element = input.h1_element()
+        # feature = input.h1_feat()
+        # rotation = input.feat_slider()
+        # btn_log_x = input.h1_log_x()
+        # btn_log_y = input.h1_log_y()
+        # layer = on_layer_check()
+        # stat = input.h1_stat()
+        # element = input.h1_element()
 
         # call get_bins_value() and add to kwargs
         bins_val = get_bins_value()
 
-        kwargs = {
-            "adata": adata,
-            "feature": feature,
-            "layer": layer,
-            "x_log_scale": btn_log_x,
-            "y_log_scale": btn_log_y,
-            "element": element,
-            "stat": stat,
-        }
+        # kwargs = {
+        #     "adata": adata,
+        #     "feature": feature,
+        #     "layer": layer,
+        #     "x_log_scale": btn_log_x,
+        #     "y_log_scale": btn_log_y,
+        #     "element": element,
+        #     "stat": stat,
+        # }
+        # Register adata in memory and get virtual path
+        
+        from utils.template_wrapper import (
+                register_memory_object,
+                unregister_memory_object
+            )
+        from spac.templates.histogram_template import run_from_json
 
+        virtual_path = register_memory_object(adata)
+        params = {
+                        "Upstream_Analysis": virtual_path,
+                        "Feature": input.h1_feat(),
+                        "Layer": get_layer() or "None",
+                        "X_Log_Scale": input.h1_log_x(),
+                        "Y_Log_Scale": input.h1_log_y(),
+                        "Element": input.h1_element(),
+                        "Stat": input.h1_stat(),
+                        "Bins": get_bins_value() if get_bins_value() is not None else "None",
+                        #"Group_By": get_group_by() or "None",
+                        # "Together": (
+                        #     input.h1_together_check()
+                        #     if input.h1_group_by_check()
+                        #     else False
+                        # ),
+                        # "Multiple": get_multiple() or "None",
+                        "X_Axis_Label_Rotation": input.feat_slider(),
+                        # "Figure_Width": input.h1_figure_width(),
+                        # "Figure_Height": input.h1_figure_height(),
+                        # "Figure_DPI": input.h1_figure_dpi(),
+                        # "Font_Size": input.h1_font_size(),
+                    }
+        
         # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
         if bins_val is not None:
-            kwargs["bins"] = bins_val
+            params["Bins"] = bins_val
 
         if input.h1_group_by_check():
-            kwargs["group_by"] = input.h1_anno()
-            kwargs["together"] = input.h1_together_check()
+            params["Group_By"] = input.h1_anno()
+            params["Together"] = input.h1_together_check()
             if input.h1_together_check():
-                kwargs["multiple"] = input.h1_together_drop()
+                params["Multiple"] = input.h1_together_drop()
+        try:
+                # Call run_from_json with virtual path
+            figs, df_data = run_from_json(
+                json_path=params,
+                save_results=False,
+                show_plot=False
+            )
+        finally:
+                    # Always clean up memory registry
+            unregister_memory_object(virtual_path)
+    
+        # fig1, ax, df = spac.visualization.histogram(**params).values()
 
-        fig1, ax, df = spac.visualization.histogram(**kwargs).values()
+        # axes = ax if isinstance(ax, (list, np.ndarray)) else [ax]
+        # for a in axes:
+        #     a.tick_params(axis='x', rotation=params["X_Axis_Label_Rotation"], labelsize=10)
 
-        axes = ax if isinstance(ax, (list, np.ndarray)) else [ax]
-        for a in axes:
-            a.tick_params(axis='x', rotation=rotation, labelsize=10)
-
-        shared['df_histogram1'].set(df)
-        return fig1
+        shared['df_histogram1'].set(df_data)
+        return figs
 
     histogram_ui_initialized = reactive.Value(False)
 
