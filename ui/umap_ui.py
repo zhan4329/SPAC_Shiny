@@ -22,7 +22,7 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_fig_width{suffix}",
                         "Figure width",
-                        value=12,
+                        value=10,
                         min=4,
                         max=30,
                     ),
@@ -32,7 +32,7 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_fig_height{suffix}",
                         "Figure height",
-                        value=12,
+                        value=8,
                         min=4,
                         max=30,
                     ),
@@ -44,7 +44,7 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_fig_dpi{suffix}",
                         "DPI",
-                        value=300,
+                        value=110,
                         min=72,
                         max=600,
                     ),
@@ -54,28 +54,33 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_font_size{suffix}",
                         "Font size",
-                        value=12,
+                        value=8,
                         min=6,
                         max=24,
                     ),
                 ),
             ),
-            ui.input_select(
-                f"umap_legend_location{suffix}",
-                "Legend location",
-                choices=[
-                    "best",
-                    "upper right",
-                    "upper left",
-                    "lower left",
-                    "lower right",
-                    "center left",
-                    "center right",
-                    "lower center",
-                    "upper center",
-                    "center",
-                ],
-                selected="best",
+            ui.row(
+                ui.column(
+                    12,
+                    ui.input_select(
+                        f"umap_legend_location{suffix}",
+                        "Legend location",
+                        choices=[
+                            "best",
+                            "upper right",
+                            "upper left",
+                            "lower left",
+                            "lower right",
+                            "center left",
+                            "center right",
+                            "lower center",
+                            "upper center",
+                            "center",
+                        ],
+                        selected="upper right",
+                    ),
+                ),
             ),
             ui.row(
                 ui.column(
@@ -83,7 +88,7 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_legend_font_size{suffix}",
                         "Legend font size",
-                        value=16,
+                        value=8,
                         min=6,
                         max=32,
                     ),
@@ -93,7 +98,7 @@ def _figure_legend_panel(suffix: str):
                     ui.input_numeric(
                         f"umap_legend_marker_scale{suffix}",
                         "Legend marker scale",
-                        value=5.0,
+                        value=1.5,
                         min=0.5,
                         max=20,
                         step=0.5,

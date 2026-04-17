@@ -7,23 +7,38 @@ from utils.template_wrapper import (
 from spac.templates.umap_tsne_pca_template import run_from_json
 
 
+def _prevent_label_clipping(fig):
+    """Add safe margins so axis labels are fully visible."""
+    if fig is None:
+        return
+    try:
+        fig.tight_layout(pad=1.4)
+    except Exception:
+        pass
+    try:
+        # Keep a small outer frame in case tight_layout is insufficient.
+        fig.subplots_adjust(left=0.12, right=0.98, bottom=0.12, top=0.94)
+    except Exception:
+        pass
+
+
 def umap_server(input, output, session, shared):
     @reactive.calc
     def get_adata():
         return shared["adata_main"].get()
 
     def _figure_legend_params(panel: int):
-        """panel 1 or 2. Template defaults match spac umap_tsne_pca_template."""
+        """panel 1 or 2. Use pre-template method-like display defaults when collapsed."""
         if panel == 1:
             if not input.umap_show_figure_config():
                 return {
-                    "Figure_Width": 12,
-                    "Figure_Height": 12,
-                    "Figure_DPI": 300,
-                    "Font_Size": 12,
-                    "Legend_Location": "best",
-                    "Legend_Font_Size": 16,
-                    "Legend_Marker_Size": 5.0,
+                    "Figure_Width": 10,
+                    "Figure_Height": 8,
+                    "Figure_DPI": 110,
+                    "Font_Size": 8,
+                    "Legend_Location": "upper right",
+                    "Legend_Font_Size": 8,
+                    "Legend_Marker_Size": 1.5,
                 }
             return {
                 "Figure_Width": input.umap_fig_width(),
@@ -36,13 +51,13 @@ def umap_server(input, output, session, shared):
             }
         if not input.umap_show_figure_config2():
             return {
-                "Figure_Width": 12,
-                "Figure_Height": 12,
-                "Figure_DPI": 300,
-                "Font_Size": 12,
-                "Legend_Location": "best",
-                "Legend_Font_Size": 16,
-                "Legend_Marker_Size": 5.0,
+                "Figure_Width": 10,
+                "Figure_Height": 8,
+                "Figure_DPI": 110,
+                "Font_Size": 8,
+                "Legend_Location": "upper right",
+                "Legend_Font_Size": 8,
+                "Legend_Marker_Size": 1.5,
             }
         return {
             "Figure_Width": input.umap_fig_width2(),
@@ -128,6 +143,7 @@ def umap_server(input, output, session, shared):
             )
             if fig is None:
                 return None
+            _prevent_label_clipping(fig)
             return fig
         except Exception:
             import traceback
