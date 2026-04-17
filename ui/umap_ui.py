@@ -62,28 +62,6 @@ def _figure_legend_panel(suffix: str):
             ),
             ui.row(
                 ui.column(
-                    12,
-                    ui.input_select(
-                        f"umap_legend_location{suffix}",
-                        "Legend location",
-                        choices=[
-                            "best",
-                            "upper right",
-                            "upper left",
-                            "lower left",
-                            "lower right",
-                            "center left",
-                            "center right",
-                            "lower center",
-                            "upper center",
-                            "center",
-                        ],
-                        selected="upper right",
-                    ),
-                ),
-            ),
-            ui.row(
-                ui.column(
                     6,
                     ui.input_numeric(
                         f"umap_legend_font_size{suffix}",

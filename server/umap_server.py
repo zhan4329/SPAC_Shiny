@@ -45,7 +45,7 @@ def umap_server(input, output, session, shared):
                 "Figure_Height": input.umap_fig_height(),
                 "Figure_DPI": input.umap_fig_dpi(),
                 "Font_Size": input.umap_font_size(),
-                "Legend_Location": input.umap_legend_location(),
+                "Legend_Location": "upper right",
                 "Legend_Font_Size": input.umap_legend_font_size(),
                 "Legend_Marker_Size": input.umap_legend_marker_scale(),
             }
@@ -64,7 +64,7 @@ def umap_server(input, output, session, shared):
             "Figure_Height": input.umap_fig_height2(),
             "Figure_DPI": input.umap_fig_dpi2(),
             "Font_Size": input.umap_font_size2(),
-            "Legend_Location": input.umap_legend_location2(),
+            "Legend_Location": "upper right",
             "Legend_Font_Size": input.umap_legend_font_size2(),
             "Legend_Marker_Size": input.umap_legend_marker_scale2(),
         }
