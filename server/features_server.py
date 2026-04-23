@@ -149,7 +149,7 @@ def features_server(input, output, session, shared):
                         "Y_Log_Scale": input.h1_log_y(),
                         "Element": input.h1_element(),
                         "Stat": input.h1_stat(),
-                        "Bins": get_bins_value() if get_bins_value() is not None else "None",
+                        "Bins": get_bins_value() if get_bins_value() is not None else "auto",
                         "Group_By": get_group_by() or "None",
                         "Together": (
                             input.h1_together_check()
@@ -162,6 +162,7 @@ def features_server(input, output, session, shared):
                         "Figure_Height": input.h1_figure_height(),
                         "Figure_DPI": input.h1_figure_dpi(),
                         "Font_Size": input.h1_font_size(),
+                        "Plot_By": "Feature",
                     }
         
         # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
