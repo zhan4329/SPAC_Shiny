@@ -40,6 +40,51 @@ def features_server(input, output, session, shared):
         layer = input.h1_layer()
         return None if layer == "Original" else layer
     
+    @reactive.calc
+    def get_group_by():
+        """
+        Return group_by annotation if Group By is checked, else None.
+
+        Returns
+        -------
+        str or None
+            Annotation column name or None
+        """
+        if input.h1_group_by_check():
+            return input.h1_anno()
+        return None
+    
+    @reactive.calc
+    def get_element():
+        """
+        Return element value, defaulting to 'bars' if hidden/empty.
+
+        Returns
+        -------
+        str
+            Element type: 'bars', 'step', or 'poly'
+        """
+        if not input.h1_show_element():
+            return "bars"  # default when section is hidden
+        val = input.h1_element()
+        return val if val else "bars"
+    
+    
+    @reactive.calc
+    def get_multiple():
+        """
+        Return stack type if Plot Together is checked, else None.
+
+        Returns
+        -------
+        str or None
+            Stack type string or None
+        """
+        if input.h1_group_by_check() and input.h1_together_check():
+            return input.h1_together_drop()
+        return None
+    
+    
     @reactive.effect
     @reactive.event(input.feat_slider)
     def sync_slider_to_num():
@@ -105,18 +150,18 @@ def features_server(input, output, session, shared):
                         "Element": input.h1_element(),
                         "Stat": input.h1_stat(),
                         "Bins": get_bins_value() if get_bins_value() is not None else "None",
-                        #"Group_By": get_group_by() or "None",
-                        # "Together": (
-                        #     input.h1_together_check()
-                        #     if input.h1_group_by_check()
-                        #     else False
-                        # ),
-                        # "Multiple": get_multiple() or "None",
+                        "Group_By": get_group_by() or "None",
+                        "Together": (
+                            input.h1_together_check()
+                            if input.h1_group_by_check()
+                            else False
+                        ),
+                        "Multiple": get_multiple() or "None",
                         "X_Axis_Label_Rotation": input.feat_slider(),
-                        # "Figure_Width": input.h1_figure_width(),
-                        # "Figure_Height": input.h1_figure_height(),
-                        # "Figure_DPI": input.h1_figure_dpi(),
-                        # "Font_Size": input.h1_font_size(),
+                        "Figure_Width": input.h1_figure_width(),
+                        "Figure_Height": input.h1_figure_height(),
+                        "Figure_DPI": input.h1_figure_dpi(),
+                        "Font_Size": input.h1_font_size(),
                     }
         
         # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
