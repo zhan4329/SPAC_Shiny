@@ -22,6 +22,26 @@ def _prevent_label_clipping(fig):
         pass
 
 
+def _set_feature_colorbar_fontsize(fig, fontsize):
+    """Apply feature-mode legend font size to matplotlib colorbar ticks."""
+    if fig is None:
+        return
+    try:
+        size = float(fontsize)
+    except Exception:
+        return
+    for ax in getattr(fig, "axes", []):
+        # Colorbar axes are typically very narrow (vertical bar) or short (horizontal bar).
+        bbox = ax.get_position()
+        is_colorbar_axis = (bbox.width < 0.08) or (bbox.height < 0.08)
+        if not is_colorbar_axis:
+            continue
+        try:
+            ax.tick_params(axis="both", labelsize=size)
+        except Exception:
+            continue
+
+
 def umap_server(input, output, session, shared):
     @reactive.calc
     def get_adata():
@@ -143,6 +163,8 @@ def umap_server(input, output, session, shared):
             )
             if fig is None:
                 return None
+            if mode == "Feature":
+                _set_feature_colorbar_fontsize(fig, fl["Legend_Font_Size"])
             _prevent_label_clipping(fig)
             return fig
         except Exception:
