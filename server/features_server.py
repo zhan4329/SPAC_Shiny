@@ -156,7 +156,7 @@ def features_server(input, output, session, shared):
                             if input.h1_group_by_check()
                             else False
                         ),
-                        "Multiple": get_multiple() or "None",
+                        "Multiple": get_multiple() or "dodge",
                         "X_Axis_Label_Rotation": input.feat_slider(),
                         "Figure_Width": input.h1_figure_width(),
                         "Figure_Height": input.h1_figure_height(),
