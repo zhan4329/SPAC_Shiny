@@ -189,7 +189,7 @@ def features_server(input, output, session, shared):
                         "Figure_DPI": input.h1_figure_dpi(),
                         "Font_Size": input.h1_font_size(),
                         "Plot_By": "Feature",
-                        "Facet": True,
+                        "Facet": input.h1_facet(),
                     }
         
         # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
