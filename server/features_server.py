@@ -170,9 +170,9 @@ def features_server(input, output, session, shared):
         params = {
                         "Upstream_Analysis": virtual_path,
                         "Feature": input.h1_feat(),
-                        "Layer": get_layer() or "None",
-                        "X_Log_Scale": input.h1_log_x(),
-                        "Y_Log_Scale": input.h1_log_y(),
+                        "Table_": get_layer() or "None",
+                        "Take_X_Log": input.h1_log_x(),
+                        "Take_Y_Log": input.h1_log_y(),
                         "Element": input.h1_element(),
                         "Stat": input.h1_stat(),
                         "Bins": get_bins_value() if get_bins_value() is not None else "auto",
