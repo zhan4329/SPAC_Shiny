@@ -84,6 +84,5 @@ dependencies:
       - tifffile
       - shapely==2.0.7  # To be consistent with requirement.txt
       - sag-py-execution-time-decorator @ git+https://github.com/SamhammerAG/sag_py_execution_time_decorator.git@976c9683d561aadc0166495117c42cc1762633d7
-      # SPAC package pinned to specific commit for template compatibility (dev branch as of 2025-10-15)
-      - spac @ git+https://github.com/ramyap06/SCSAWorkflow-2025.git@a422bbec2179a4f123de653febf399c2752453e4#egg=spac
-
+      # SPAC package pinned to specific commit for template compatibility (feat/histogram-facet branch as of 2026-04-28)
+      - spac @ git+https://github.com/ramyap06/SCSAWorkflow-2025.git@7a6c048ce61c0d32b766a08c301d7b5e9a1e24f9#egg=spac
