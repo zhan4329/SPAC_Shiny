@@ -95,7 +95,7 @@ def features_ui():
                                     choices={
                                         "auto":   "Auto — Determined automatically",
                                         "number": "Number — Set number of bins",
-                                        "list":   "List — Set custom bin edges",
+                                        #"list":   "List — Set custom bin edges",
                                     },
                                     selected="auto"
                                 ),
