@@ -69,7 +69,14 @@ def features_server(input, output, session, shared):
         val = input.h1_element()
         return val if val else "bars"
     
-    
+    @reactive.calc
+    def get_together():
+        if not input.h1_group_by_check():
+            return False
+        if input.h1_facet():        # ← Facet takes priority
+            return False
+        return input.h1_together_check()
+
     @reactive.calc
     def get_multiple():
         """
@@ -84,7 +91,26 @@ def features_server(input, output, session, shared):
             return input.h1_together_drop()
         return None
     
-    
+        # ▼▼▼ NEW: Facet ↔ Plot Together mutual exclusion
+    @reactive.effect
+    @reactive.event(input.h1_facet)
+    def on_facet_changed():
+        if input.h1_facet():
+            try:
+                ui.update_checkbox("h1_together_check", value=False)
+            except Exception:
+                pass
+
+    @reactive.effect
+    @reactive.event(input.h1_together_check)
+    def on_together_changed():
+        try:
+            if input.h1_together_check():
+                ui.update_checkbox("h1_facet", value=False)
+        except Exception:
+            pass
+    # ▲▲▲ END NEW
+
     @reactive.effect
     @reactive.event(input.feat_slider)
     def sync_slider_to_num():
@@ -150,7 +176,7 @@ def features_server(input, output, session, shared):
                         "Element": input.h1_element(),
                         "Stat": input.h1_stat(),
                         "Bins": get_bins_value() if get_bins_value() is not None else "auto",
-                        "Group_By": get_group_by() or "None",
+                        "Group_by": get_group_by() or "None",
                         "Together": (
                             input.h1_together_check()
                             if input.h1_group_by_check()
@@ -163,6 +189,7 @@ def features_server(input, output, session, shared):
                         "Figure_DPI": input.h1_figure_dpi(),
                         "Font_Size": input.h1_font_size(),
                         "Plot_By": "Feature",
+                        "Facet": True,
                     }
         
         # only pass bins if not None, avoids overriding auto behaviour ▼▼▼
@@ -170,7 +197,7 @@ def features_server(input, output, session, shared):
             params["Bins"] = bins_val
 
         if input.h1_group_by_check():
-            params["Group_By"] = input.h1_anno()
+            params["Group_by"] = input.h1_anno()
             params["Together"] = input.h1_together_check()
             if input.h1_together_check():
                 params["Multiple"] = input.h1_together_drop()
@@ -178,7 +205,7 @@ def features_server(input, output, session, shared):
                 # Call run_from_json with virtual path
             figs, df_data = run_from_json(
                 json_path=params,
-                save_results=False,
+                save_to_disk=False,
                 show_plot=False
             )
         finally:

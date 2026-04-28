@@ -47,6 +47,21 @@ def features_ui():
                             "Group By",
                             value=False
                         ),
+                             # ▼▼▼ NEW: shown only when Group By is checked
+                        ui.panel_conditional(
+                            "input.h1_group_by_check",
+                            ui.div(id="main-h1_dropdown"),
+                            ui.div(
+                                {"style": "margin-top: 6px;"},
+                                ui.input_checkbox(
+                                    "h1_facet",
+                                    "Facet Plot",
+                                    value=False
+                                ),
+                            ),
+                            ui.div(id="main-h1_check"),
+                            ui.div(id="main-h1_together_drop"),
+                        ),
                         ui.input_checkbox(
                             "h1_log_x",
                             "Log X-axis",
@@ -272,7 +287,8 @@ def features_ui():
                             ui.output_plot(
                                 "spac_Histogram_1",
                                 width="100%",
-                                height="60vh"
+                                # height="60vh"
+                                height="150vh",
                             )
                         )
                     )
