@@ -1,34 +1,52 @@
 # Pin SPAC to PR #433 Compatibility Overview
 
-Update the SPAC dependency to the official commit containing PR #433's
-histogram-facet follow-up, then keep existing template callers compatible.
-This PR is a prerequisite for the Features adapter refactor.
+Update SPAC Shiny to the official SPAC commit containing PR #433's
+histogram-facet follow-up, then keep existing template callers compatible
+before downstream Features adapter work begins.
 
 ## Project Context
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `chore/pin-spac-to-pr-433`
 - Target branch: `dev`
-- Downstream branch: `ref/features-template-adapter`
 - SPAC commit: `f9886bcde643ebf14e58a31d5ac397e28b6ea510`
+- Environment: Docker image based on `python:3.9.19-slim-bookworm`
 
 ## Immediate Next Step
 
-Complete Task 1, then Task 2.
+After this prerequisite is merged, start the Features template-adapter
+development.
 
-## Scope
+## Progress
 
-Update the dependency pin, verify the current template contract, and apply
-compatibility fixes required by the new pin. Features refactoring, facet UI,
-Annotation, UMAP, and broad cleanup are out of scope.
+**In Progress**
+- None currently.
 
-## Remaining Tasks
+**Complete**
+- Task 1: Update the SPAC Dependency Pin.
+- Task 2: Verify the Current SPAC Dev Contract.
+- Task 3: Fix SPAC Template Caller Compatibility.
 
-1. Update the SPAC dependency pin.
-2. Verify the SPAC contract and existing template callers.
+**Postponed tasks**
+- Facet UI exposure.
+
+**Dropped tasks**
+- None.
+
+**Issues (open)**
+- None.
+
+## Scope Boundary
+
+Keep this development limited to dependency pinning, existing SPAC contract
+verification, and compatibility fixes required by the pinned SPAC contract.
+Defer facet UI, Annotation, UMAP, and broad cleanup to the downstream
+developments. The Features template adapter is the next development after
+this prerequisite.
 
 ## Development Details
 
 - [Task details](./development-details/task-details.md)
+- [Decisions](./development-details/decisions.md)
+- [Implementation log](./development-details/implementation-log.md)
 - [Implementation notes](./development-details/implementation-notes.md)
-- [Decision log](./development-details/decisions.md)
