@@ -16,6 +16,8 @@ Action items:
   `build_template_params()`.
 - [ ] Mock `run_from_json()` and assert the current-dev template payload and
   returned figure/dataframe handling.
+- [ ] Cover the current-dev Histogram template import, execution keyword,
+  parameter defaults, and in-memory return contract.
 - [ ] Assert memory-registry cleanup after successful and failed execution.
 - [ ] Cover ordinary and grouped non-facet parameter paths.
 - [ ] Run the focused adapter test module.
@@ -55,6 +57,8 @@ Action items:
   execution.
 - [ ] Call `run_from_json(..., save_to_disk=False, show_plot=False)`
   with the built parameter dictionary.
+- [ ] Verify that the Histogram template accepts `save_to_disk=False` and
+  returns the in-memory figure/dataframe tuple.
 - [ ] Store the returned dataframe in `shared["df_histogram1"]` and
   return the returned figure.
 - [ ] Unregister the memory object in a `finally` block.
@@ -86,6 +90,8 @@ Action items:
   `Bins`, `Stat`, `Element`, `Max_Groups`,
   `Facet`, `Facet_Ncol`, and figure settings not exposed by
   the current UI.
+- [ ] Verify the current-dev Histogram template keys and defaults for
+  `Table_`, `Group_by`, `Max_Groups`, `Facet`, and `Facet_Ncol`.
 - [ ] Set `Facet` to its non-facet default without exposing facet
   controls in this task.
 - [ ] Pass `"None"` or the template’s documented default tokens where

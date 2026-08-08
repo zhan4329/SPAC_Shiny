@@ -17,7 +17,8 @@ Refactor the SPAC Shiny Features tab to use the standard SPAC template workflow 
 ## Immediate Next Step
 
 After `chore/pin-spac-to-pr-433` is merged, review and implement the
-Features adapter tasks below.
+Features adapter tasks below, including the current-dev Histogram template
+contract checks assigned to Tasks 4, 5, and 7.
 
 ## Progress
 

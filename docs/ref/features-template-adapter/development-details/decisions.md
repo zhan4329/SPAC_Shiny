@@ -3,6 +3,19 @@
 The dependency baseline decision is maintained in the prerequisite
 [compatibility PR decision log](../../../chore/pin-spac-to-pr-433/development-details/decisions.md).
 
+### D5. Own the Histogram Template Contract in the Adapter
+Date: 2026-08-07
+
+Decision:
+Track Histogram template import, parameter/default, and in-memory return
+contract checks in adapter Tasks 4, 5, and 7.
+
+Rationale:
+These checks validate the boundary that this development is introducing when
+the Features server delegates from `spac.visualization.histogram()` to the
+current-dev Histogram template. They are not required for the prerequisite
+dependency pin or the existing Ripley/Nearest Neighbor callers.
+
 ### D4. Track the refactor as seven commit-sized tasks
 Date: 2026-08-05
 
