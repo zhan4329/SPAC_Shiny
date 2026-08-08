@@ -3,6 +3,22 @@
 The dependency baseline decision is maintained in the prerequisite
 [compatibility PR decision log](../../../chore/pin-spac-to-pr-433/development-details/decisions.md).
 
+### D6. Reclassify Former Overview Issues
+Date: 2026-08-07
+
+Decision:
+- The question of setting `shared["X_data"]` to `None` when `adata` is
+  missing is outside the Features template boundary. Leave it out of the
+  active adapter tasks and revisit it with broader data-input changes.
+- The Features renderer will use `shared["adata_main"]` as its AnnData source;
+  projected component values remain available only for UI-choice updates.
+  Task 1 owns implementation and missing-data verification of this boundary.
+
+Rationale:
+The first question does not affect the new renderer once it stops
+reconstructing AnnData. The second is the source-of-truth decision for this
+refactor and must remain explicit while implementation is still pending.
+
 ### D5. Own the Histogram Template Contract in the Adapter
 Date: 2026-08-07
 
@@ -62,7 +78,7 @@ template-adapter design rather than cherry-picking the full branch or using
 `git cherry-pick -n ffa8644` as the default workflow.
 
 Details:
-- Start from the current `ref/features-template-adapter` branch.
+- Start from the current `ref/features-server-template` branch.
 - Implement the adapter cleanly for the current SPAC version and Issue #73
   workflow.
 - Mention `ffa8644` in the PR description.

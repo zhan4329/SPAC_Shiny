@@ -3,7 +3,7 @@
 ## Branch and PR Sequence
 
 Create `chore/pin-spac-to-pr-433` from `dev` and merge it first.
-Create `ref/features-template-adapter` from the updated `dev`. After the
+Create `ref/features-server-template` from the updated `dev`. After the
 adapter PR is merged, create `feat/features-facet` from the updated `dev`.
 
 The dependency baseline and existing template-caller compatibility work are

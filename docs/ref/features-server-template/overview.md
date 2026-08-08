@@ -1,4 +1,4 @@
-# Features Template Adapter Development Overview
+# Features Server Template Refactor Development Overview
 
 ## Problem Statement
 
@@ -7,7 +7,7 @@ Refactor the SPAC Shiny Features tab to use the standard SPAC template workflow 
 ## Project Context
 
 - Repository: `SPAC_Shiny`
-- Feature branch: `ref/features-template-adapter`
+- Feature branch: `ref/features-server-template`
 - Target branch: `dev`
 - Dependency prerequisite: `chore/pin-spac-to-pr-433`
 - Primary reference: [SPAC template integration guide](https://github.com/FNLCR-DMAP/SPAC_Shiny/issues/73), or [issue-73.md](../../issues/issue-73.md)
@@ -16,7 +16,7 @@ Refactor the SPAC Shiny Features tab to use the standard SPAC template workflow 
 
 ## Immediate Next Step
 
-After `chore/pin-spac-to-pr-433` is merged, review and implement the
+With `chore/pin-spac-to-pr-433` complete, start Task 1 and implement the
 Features adapter tasks below, including the current-dev Histogram template
 contract checks assigned to Tasks 4, 5, and 7.
 
@@ -42,18 +42,15 @@ None currently.
 
 ### Issues (Open)
 
-1. In `SPAC_Shiny/server/data_input_server.py`, investigate whether
-   `shared['X_data']` should be set to `None` when `adata` is `None`.
-2. Investigate why selected AnnData components are copied into separate
-   reactive values instead of consumers reading `shared['adata_main']`
-   directly.
+None currently. The former overview issues are reclassified in [D6](./development-details/decisions.md#d6-reclassify-former-overview-issues); Task 1 owns the canonical-source implementation.
 
-## Analysis Summary
+## Scope
 
 The adapter should establish the same Shiny-to-template boundary described in
-Issue #73 and used by the existing refactored tabs. The dependency baseline is
-tracked separately in `docs/chore/pin-spac-to-pr-433/`. Facet support
-is planned separately in `docs/feat/features-facet/`.
+Issue #73 and used by the existing refactored tabs. The canonical AnnData
+source and projected UI-choice values must remain distinct. The dependency
+baseline is tracked separately in `docs/chore/pin-spac-to-pr-433/`. Facet
+support is planned separately in `docs/feat/features-facet/`.
 
 ## Development Details
 
