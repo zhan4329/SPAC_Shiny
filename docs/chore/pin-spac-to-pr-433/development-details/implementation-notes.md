@@ -3,8 +3,9 @@
 ## Branch and PR Sequence
 
 Create `chore/pin-spac-to-pr-433` from `dev`. After it is merged,
-create `ref/features-template-adapter` from the updated `dev`.
-Create `feat/features-facet` only after the adapter PR is merged.
+create `ref/features-server-template` from the updated `dev`.
+Create `feat/features-facet` only after the Features server template refactor
+PR is merged.
 
 ## Prior-Branch Evidence
 
@@ -18,7 +19,7 @@ scope rather than cherry-picking it wholesale.
 
 Run focused checks for the existing Nearest Neighbor and Ripley template
 callers after installing the selected SPAC commit. Histogram template
-contract checks belong to `ref/features-template-adapter`, where the Features
+contract checks belong to `ref/features-server-template`, where the Features
 server will first delegate execution to that template. Record implementation
 evidence in the implementation log when work begins.
 

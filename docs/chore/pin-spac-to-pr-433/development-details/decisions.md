@@ -7,7 +7,7 @@ Decision:
 Keep this development focused on the pinned dependency baseline and existing
 Ripley/Nearest Neighbor caller compatibility. Move Histogram template import,
 parameter/default, and return-contract checks to
-`ref/features-template-adapter` Tasks 4, 5, and 7.
+`ref/features-server-template` Tasks 4, 5, and 7.
 
 Rationale:
 The Shiny Features server currently calls `spac.visualization.histogram()`;

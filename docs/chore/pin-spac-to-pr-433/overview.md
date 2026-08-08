@@ -41,8 +41,8 @@ development.
 Keep this development limited to dependency pinning, existing SPAC contract
 verification, and compatibility fixes required by the pinned SPAC contract.
 Defer facet UI, Annotation, UMAP, and broad cleanup to the downstream
-developments. The Features template adapter is the next development after
-this prerequisite.
+developments. The Features server template refactor is the next development
+after this prerequisite.
 
 ## Development Details
 

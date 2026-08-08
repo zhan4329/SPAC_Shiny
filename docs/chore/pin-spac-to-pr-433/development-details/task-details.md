@@ -62,7 +62,7 @@ Runtime evidence:
   'spac.templates.visualize_ripley_template'`.
 - The exact pinned source confirms the replacement modules and
   `save_to_disk` execution keyword. Histogram template contract checks are
-  owned by `ref/features-template-adapter` Tasks 4, 5, and 7.
+  owned by `ref/features-server-template` Tasks 4, 5, and 7.
 
 ### Task 1. Update the SPAC Dependency Pin
 Location: `requirements.txt`, `environment.yml`
