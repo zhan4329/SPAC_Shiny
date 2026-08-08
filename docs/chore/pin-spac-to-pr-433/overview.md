@@ -47,6 +47,7 @@ this prerequisite.
 ## Development Details
 
 - [Task details](./development-details/task-details.md)
+- [PR summary](./pr-summary.md)
 - [Decisions](./development-details/decisions.md)
 - [Implementation log](./development-details/implementation-log.md)
 - [Implementation notes](./development-details/implementation-notes.md)
