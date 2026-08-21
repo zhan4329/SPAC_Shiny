@@ -1,11 +1,15 @@
 from shiny import ui, render, reactive
-import anndata as ad
 import numpy as np
-import pandas as pd
 import spac.visualization
 
 
 def features_server(input, output, session, shared):
+
+    @reactive.calc
+    def get_adata():
+        """Get the main AnnData object from shared state."""
+        return shared['adata_main'].get()
+
     def on_layer_check():
         return input.h1_layer() if input.h1_layer() != "Original" else None
 
@@ -14,14 +18,7 @@ def features_server(input, output, session, shared):
     @render.plot
     @reactive.event(input.go_h1, ignore_none=True)
     def spac_Histogram_1():
-        adata = ad.AnnData(
-            X=shared['X_data'].get(), 
-            obs=pd.DataFrame(shared['obs_data'].get()), 
-            var=pd.DataFrame(shared['var_data'].get()), 
-            layers=shared['layers_data'].get(), 
-            dtype=shared['X_data'].get().dtype
-        )
-
+        adata = get_adata()
         if adata is None:
             return None
 
