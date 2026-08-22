@@ -10,9 +10,27 @@ def features_server(input, output, session, shared):
         """Get the main AnnData object from shared state."""
         return shared['adata_main'].get()
 
-    def on_layer_check():
-        return input.h1_layer() if input.h1_layer() != "Original" else None
+    @reactive.calc
+    def get_features_inputs():
+        """Read Features controls and build the current histogram inputs."""
 
+        group_by_enabled = input.h1_group_by_check()
+        group_by = input.h1_anno() if group_by_enabled else None
+        together = input.h1_together_check() if group_by_enabled else False
+        multiple = input.h1_together_drop() if together else "stack"
+
+        return {
+            "feature": input.h1_feat(),
+            "layer": (
+                input.h1_layer() if input.h1_layer() != "Original" else None
+            ),
+            "x_log_scale": input.h1_log_x(),
+            "y_log_scale": input.h1_log_y(),
+            "group_by": group_by,
+            "together": together,
+            "multiple": multiple,
+            "x_axis_label_rotation": input.feat_slider(),
+        }
 
     @output
     @render.plot
@@ -22,31 +40,20 @@ def features_server(input, output, session, shared):
         if adata is None:
             return None
 
-        feature = input.h1_feat()
-        rotation = input.feat_slider()
-        btn_log_x = input.h1_log_x()
-        btn_log_y = input.h1_log_y()
-        layer = on_layer_check()
-
-        kwargs = {
-            "adata": adata,
-            "feature": feature,
-            "layer": layer,
-            "x_log_scale": btn_log_x,
-            "y_log_scale": btn_log_y,
-        }
-
-        if input.h1_group_by_check():
-            kwargs["group_by"] = input.h1_anno()
-            kwargs["together"] = input.h1_together_check()
-            if input.h1_together_check():
-                kwargs["multiple"] = input.h1_together_drop()
-        
-        fig1, ax, df = spac.visualization.histogram(**kwargs).values()
+        features_inputs = get_features_inputs()
+        rotation = features_inputs.pop("x_axis_label_rotation")
+        fig1, ax, df = spac.visualization.histogram(
+            adata=adata,
+            **features_inputs,
+        ).values()
 
         axes = ax if isinstance(ax, (list, np.ndarray)) else [ax]
         for a in axes:
-            a.tick_params(axis='x', rotation=rotation, labelsize=10)
+            a.tick_params(
+                axis="x",
+                rotation=rotation,
+                labelsize=10,
+            )
 
         shared['df_histogram1'].set(df)
         return fig1
