@@ -1,3 +1,10 @@
+"""
+Feature histogram visualization module for SPAC Shiny application.
+
+This module handles the server-side logic for generating feature histograms
+through the standard SPAC Histogram template workflow.
+"""
+
 from shiny import ui, render, reactive
 
 # Import template wrapper utilities.
@@ -10,6 +17,20 @@ from spac.templates.histogram_template import run_from_json
 
 
 def features_server(input, output, session, shared):
+    """
+    Server logic for the feature histogram visualization.
+
+    Parameters
+    ----------
+    input : shiny.session.Inputs
+        Shiny input object
+    output : shiny.session.Outputs
+        Shiny output object
+    session : shiny.session.Session
+        Shiny session object
+    shared : dict
+        Shared reactive values across server modules
+    """
 
     @reactive.calc
     def get_adata():
@@ -18,7 +39,7 @@ def features_server(input, output, session, shared):
 
     @reactive.calc
     def get_features_inputs():
-        """Read Features controls and build the current histogram inputs."""
+        """Return normalized semantic state from the Features controls."""
 
         group_by_enabled = input.h1_group_by_check()
         group_by = input.h1_anno() if group_by_enabled else None
