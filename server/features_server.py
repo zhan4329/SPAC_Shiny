@@ -7,6 +7,8 @@ through the standard SPAC Histogram template workflow.
 
 from shiny import ui, render, reactive
 
+# Import plot display utilities.
+from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
 # Import template wrapper utilities.
 from utils.template_wrapper import (
     register_memory_object,
@@ -101,8 +103,10 @@ def features_server(input, output, session, shared):
         finally:
             unregister_memory_object(virtual_path)
 
+        png_bytes = fig_to_png_bytes(fig)
+        display_fig = png_bytes_to_figure(png_bytes)
         shared['df_histogram1'].set(df)
-        return fig
+        return display_fig
 
     histogram_ui_initialized = reactive.Value(False)
 
