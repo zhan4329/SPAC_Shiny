@@ -5,10 +5,12 @@ This module handles the server-side logic for generating feature histograms
 through the standard SPAC Histogram template workflow.
 """
 
+import tempfile
+
 from shiny import ui, render, reactive
 
 # Import plot display utilities.
-from utils.plot_utils import fig_to_png_bytes, png_bytes_to_figure
+from utils.plot_utils import fig_to_png_bytes
 # Import template wrapper utilities.
 from utils.template_wrapper import (
     register_memory_object,
@@ -82,7 +84,7 @@ def features_server(input, output, session, shared):
         }
 
     @output
-    @render.plot
+    @render.image(delete_file=True)
     @reactive.event(input.go_h1, ignore_none=True)
     def spac_Histogram_1():
         """Generate a feature histogram through the SPAC template."""
@@ -104,9 +106,22 @@ def features_server(input, output, session, shared):
             unregister_memory_object(virtual_path)
 
         png_bytes = fig_to_png_bytes(fig)
-        display_fig = png_bytes_to_figure(png_bytes)
+        with tempfile.NamedTemporaryFile(
+            prefix="spac_feature_histogram_",
+            suffix=".png",
+            delete=False,
+        ) as temp_file:
+            temp_file.write(png_bytes)
+            temp_path = temp_file.name
+
         shared['df_histogram1'].set(df)
-        return display_fig
+        return {
+            "src": temp_path,
+            "width": "100%",
+            "height": "100%",
+            "style": "object-fit: contain;",
+            "alt": "Feature histogram",
+        }
 
     histogram_ui_initialized = reactive.Value(False)
 
