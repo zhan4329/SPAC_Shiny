@@ -16,10 +16,9 @@ the later facet development.
 
 ## Immediate Next Step
 
-Create `ref/features-ui-structure` from `dev`,
-implement the UI-only organization recorded in
-[Architecture](./development-details/architecture.md), verify preservation of
-the existing Features interactions, and open a focused PR against `dev`.
+Begin Task 4 by replacing the server-inserted Group By controls with static
+conditional UI. Then complete the shared-first styling work in Task 5 before
+the final Task 3 verification.
 
 ## Progress
 
@@ -28,6 +27,13 @@ the existing Features interactions, and open a focused PR against `dev`.
 
 **Complete**
 - Development tracker created and UI structure agreed.
+- Task 1: Extract the Features UI Composition.
+- Task 2: Organize the Features Controls Into Sections.
+
+**Remaining**
+- Task 4: Replace Dynamic Group By UI With Static Conditions.
+- Task 5: Establish Shared Visualization Styling for Features.
+- Task 3: Verify the UI Refactor and Prepare It for Review.
 
 **Postponed**
 - None currently.
@@ -35,19 +41,21 @@ the existing Features interactions, and open a focused PR against `dev`.
 **Dropped**
 - None currently.
 
+**Issues (open)**
+- None currently.
+
 ## Scope Boundary
 
-Change only `ui/features_ui.py`. Compose the Features panel from focused
-control and plot helpers; organize the existing inputs into always-visible
-core parameters, collapsible plot configuration, collapsible figure
-configuration, and actions; and use the guide's clearer control-versus-plot
-layout.
+Center the refactor in `ui/features_ui.py`. Task 4 permits focused changes to
+`features_server.py` and `effect_update_server.py` for static Group By
+controls. Task 5 permits focused changes to `app.py`, `utils/styling.py`, and
+`ui/data_input_ui.py` to establish shared style ownership and make Features
+its first visualization consumer.
 
-Preserve all functional input and output IDs, defaults, dynamic insertion
-targets, the current `output_plot`, and current server behavior. Do not add
-facet controls, template parameters, server changes, responsive preview work,
-renderer changes, shared UI utilities, dependencies, or unrelated visual
-polish.
+Preserve all functional input and output IDs, defaults, the current
+`output_plot`, and analytical server behavior. Do not add facet controls,
+template parameters, responsive preview work, renderer changes, dependencies,
+unrelated cross-tab migrations, or unrelated visual polish.
 
 ## Development Details
 

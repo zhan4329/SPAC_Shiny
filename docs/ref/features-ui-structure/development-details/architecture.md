@@ -1,9 +1,10 @@
 # Features UI Structure Architecture
 
-This document defines the UI-only organization for `ui/features_ui.py`. It
-adapts the section-based module pattern in the SPAC template integration guide
-to the controls that the Features tab currently exposes. It does not change
-the Features server, plot execution, or renderer.
+This document defines the Features UI organization, focused control-ownership
+cleanup, and shared-first styling foundation. It adapts the section-based
+module pattern in the SPAC template integration guide while replacing
+server-inserted Group By controls with static conditional UI. It does not
+change plot execution or the renderer.
 
 ## Baseline
 
@@ -19,9 +20,9 @@ The existing server depends on these UI identifiers:
 | Feature | `h1_feat` |
 | Table | `h1_layer` |
 | Grouping enabled | `h1_group_by_check` |
-| Annotation insertion target | `main-h1_dropdown` |
-| Together insertion target | `main-h1_check` |
-| Stack-type insertion target | `main-h1_together_drop` |
+| Annotation | `h1_anno` |
+| Together | `h1_together_check` |
+| Stack type | `h1_together_drop` |
 | X log | `h1_log_x` |
 | Y log | `h1_log_y` |
 | X-label rotation | `feat_slider` |
@@ -29,7 +30,8 @@ The existing server depends on these UI identifiers:
 | Download UI | `download_histogram1_button_ui` |
 | Plot output | `spac_Histogram_1` |
 
-These identifiers and their current defaults remain unchanged.
+These functional identifiers and their current defaults remain unchanged. The
+three baseline insertion-target IDs are removed with the dynamic lifecycle.
 
 ## Target Composition
 
@@ -57,6 +59,19 @@ composition. `_controls_panel()` owns the ordered controls and action area.
 `_collapsible_section()` helper implements the repeated disclosure pattern
 without creating a shared cross-tab abstraction.
 
+## Shared Style Ownership
+
+`app.py` loads application-wide and reusable visualization styles once from
+`utils/styling.py`. Data Input retains ownership of its page-specific rules
+without acting as the delivery path for global styles. Features is the first
+consumer of semantically named shared control-panel and result-panel classes.
+
+The shared contract covers stable visual treatment such as panel surfaces,
+borders, radii, padding, and control spacing. Fixed viewport heights, overflow
+behavior, plot dimensions, and tab-specific tooltip rules remain local. The
+existing Nearest Neighbor, Feature vs Annotation, and Ripley L styles are not
+migrated in this task; they can adopt the reviewed shared contract later.
+
 ## Section Ownership
 
 ### Core Parameters
@@ -66,10 +81,11 @@ the data to visualize and should remain immediately available.
 
 ### Plot Configuration
 
-The collapsible plot section contains `h1_group_by_check`, the three existing
-dynamic insertion targets, `h1_log_x`, and `h1_log_y`. The targets remain in
-the rendered DOM so the existing server selectors can insert and remove the
-Annotation, Plot Together, and Stack Type controls without modification.
+The collapsible plot section contains `h1_group_by_check`, `h1_log_x`, and
+`h1_log_y`. A condition tied to Group By contains the static `h1_anno` and
+`h1_together_check` controls; a nested condition tied to Together contains
+`h1_together_drop`. Annotation choices remain dataset-driven through the
+central effect updater.
 
 The disclosure control changes only visibility. It does not normalize,
 clear, or update any analytical input value. The existing Shiny inputs remain
@@ -95,30 +111,34 @@ and renderer changes are separate developments.
 
 ```text
 Features UI composition
-    ├── existing analytical input IDs ───────────────┐
-    ├── existing dynamic insertion targets ──────┐   │
-    └── existing action and output IDs ────────┐  │   │
-                                               ▼  ▼   ▼
-                                     unchanged features_server.py
-                                               │
-                                               ▼
-                                          current plot result
+    ├── stable analytical input IDs ────────────────┐
+    ├── conditional visibility ─────────────────┐   │
+    └── existing action and output IDs ──────┐   │   │
+                                            ▼   ▼   ▼
+                                  current render behavior
+                                            │
+                                            ▼
+                                      current plot result
 ```
 
-The refactor changes presentation structure only. It does not change the
-current server input reads, dynamic insertion effects, button-gated plotting,
-dataframe publication, download behavior, or returned Matplotlib figure.
+The refactor changes presentation structure and removes the dynamic insertion
+effects. It does not change button-gated plotting, dataframe publication,
+download behavior, or the returned Matplotlib figure.
 
 ## Verification Boundary
 
 Verification should establish that the module imports and constructs its UI,
-that all established identifiers occur once, and that the disclosure sections
-show the intended controls. Direct Shiny verification should confirm Group By
-insertion and removal, Together and Stack Type behavior, ordinary and grouped
-rendering, repeated rendering, plot presentation, and dataframe download.
+that all established functional identifiers occur once, and that the
+disclosure sections show the intended controls. Direct Shiny verification
+should confirm Group By and Together conditional visibility, annotation-choice
+updates, ordinary and grouped rendering, repeated rendering, plot
+presentation, and dataframe download.
+It should also confirm that shared styles load once, Data Input retains its
+page styling, Features consumes the reusable visualization classes, and other
+tabs remain unchanged.
 
 Facet behavior, responsive plot geometry, canonical title or legend
 containment, renderer changes, and server-side parameter tests are outside
-this UI-only architecture. When the template-server PR is later rebased, its
+this architecture. When the template-server PR is later rebased, its
 `output_plot`-to-`output_image` change should be applied inside
 `_plot_panel()` without changing this composition.

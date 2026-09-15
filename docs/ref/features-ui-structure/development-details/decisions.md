@@ -1,5 +1,60 @@
 # Decisions
 
+### D5. Adopt Shared-First Visualization Styling
+Date: 2026-09-15
+
+Decision:
+Promote the CSS issue to Task 5. Load application-wide and reusable
+visualization styles once at the app root, keep Data Input-specific rules with
+that page, and make Features the first visualization consumer. Defer migration
+of Nearest Neighbor, Feature vs Annotation, and Ripley L until the shared
+contract has been validated through Features.
+
+Rationale:
+The existing `utils/styling.py` provides a natural shared home, but its broad
+styles currently reach the application indirectly through Data Input. Making
+ownership explicit avoids that hidden dependency and gives later tab
+migrations a reusable contract without duplicating their current inline CSS.
+
+### D4. Replace Dynamic Group By UI in the Current Refactor
+Date: 2026-09-15
+
+Decision:
+Promote the dynamic-control ownership issue to Task 4. Declare Annotation,
+Plot Together, and Stack Type statically in `features_ui.py`, use nested
+`panel_conditional()` visibility, update Annotation choices through the
+central effect updater, and remove the corresponding Features server
+insertion/removal lifecycle. Leave the later Group By/Together/Facet
+interaction contract outside this task.
+
+This supersedes D3's preservation of `insert_ui()` / `remove_ui()` and the
+earlier one-file boundary only for the focused Task 4 cleanup.
+
+Rationale:
+PR #66 provides an accepted SPAC Shiny precedent for moving stable dependent
+controls from server insertion into conditional UI. The feature-template
+branches instead retained the dynamic lifecycle and duplicated insertion
+targets, so they are not suitable implementation references. Static control
+ownership removes unnecessary reactive state and DOM mutation without
+requiring Facet behavior in this refactor.
+
+### D3. Implement the UI Refactor as Three Sequential Tasks
+Date: 2026-09-15
+
+Decision:
+Divide the development into composition extraction, control-section
+organization, and focused verification. Preserve the existing server-side
+`insert_ui()` and `remove_ui()` mechanism throughout these tasks. Track a
+possible move to static UI-owned `panel_conditional()` controls as an open
+issue for a later decision rather than expanding the active refactor.
+
+Rationale:
+The first two tasks are independently reviewable one-file presentation
+changes, while the third provides a clear regression boundary. Replacing the
+dynamic controls would also change `features_server.py`, reactive behavior,
+and the current scope, so it requires a separate design decision after the
+agreed UI structure has been verified.
+
 ### D2. Base the UI Refactor on Dev and Keep Its Helper Local
 Date: 2026-09-15
 
