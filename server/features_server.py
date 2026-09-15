@@ -123,9 +123,6 @@ def features_server(input, output, session, shared):
             "alt": "Feature histogram",
         }
 
-    histogram_ui_initialized = reactive.Value(False)
-
-
     @render.download(filename="features_histogram_data.csv")
     def download_histogram1_df():
         df = shared['df_histogram1'].get()
@@ -134,7 +131,6 @@ def features_server(input, output, session, shared):
             csv_bytes = csv_string.encode("utf-8")
             return csv_bytes, "text/csv"
         return None
-
 
     @render.ui
     @reactive.event(input.go_h1, ignore_none=True)
@@ -146,61 +142,3 @@ def features_server(input, output, session, shared):
                 class_="btn-warning"
             )
         return None
-
-
-    @reactive.effect
-    def histogram_reactivity():
-        btn = input.h1_group_by_check()
-        ui_initialized = histogram_ui_initialized.get()
-
-        if btn and not ui_initialized:
-            dropdown = ui.input_select(
-                "h1_anno", 
-                "Select an Annotation", 
-                choices=shared['obs_names'].get()
-            )
-            ui.insert_ui(
-                ui.div({"id": "inserted-dropdown"}, dropdown),
-                selector="#main-h1_dropdown",
-                where="beforeEnd",
-            )
-
-            together_check = ui.input_checkbox(
-                "h1_together_check", 
-                "Plot Together", 
-                value=True
-            )
-            ui.insert_ui(
-                ui.div({"id": "inserted-check"}, together_check),
-                selector="#main-h1_check",
-                where="beforeEnd",
-            )
-
-            histogram_ui_initialized.set(True)
-
-        elif not btn and ui_initialized:
-            ui.remove_ui("#inserted-dropdown")
-            ui.remove_ui("#inserted-check")
-            ui.remove_ui("#inserted-dropdown_together")
-            histogram_ui_initialized.set(False)
-
-
-    @reactive.effect
-    @reactive.event(input.h1_together_check)
-    def update_stack_type_dropdown():
-        if input.h1_together_check():
-            dropdown_together = ui.input_select(
-                "h1_together_drop", 
-                "Select Stack Type", 
-                choices=['stack', 'layer', 'dodge', 'fill'], 
-                selected='stack'
-            )
-            ui.insert_ui(
-                ui.div(
-                    {"id": "inserted-dropdown_together"}, 
-                    dropdown_together
-                ),
-                selector="#main-h1_together_drop",
-                where="beforeEnd",)      
-        else:
-            ui.remove_ui("#inserted-dropdown_together")

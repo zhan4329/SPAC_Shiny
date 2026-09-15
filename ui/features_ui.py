@@ -46,9 +46,28 @@ def _controls_panel():
                     "Group By",
                     value=False
                 ),
-                ui.div(id="main-h1_dropdown"),
-                ui.div(id="main-h1_check"),
-                ui.div(id="main-h1_together_drop"),
+                ui.panel_conditional(
+                    "input.h1_group_by_check",
+                    ui.input_select(
+                        "h1_anno",
+                        "Select an Annotation",
+                        choices=[]
+                    ),
+                    ui.input_checkbox(
+                        "h1_together_check",
+                        "Plot Together",
+                        value=True
+                    ),
+                    ui.panel_conditional(
+                        "input.h1_together_check",
+                        ui.input_select(
+                            "h1_together_drop",
+                            "Select Stack Type",
+                            choices=["stack", "layer", "dodge", "fill"],
+                            selected="stack"
+                        )
+                    )
+                ),
                 ui.input_checkbox(
                     "h1_log_x",
                     "Log X-axis",
