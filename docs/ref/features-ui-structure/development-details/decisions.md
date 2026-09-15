@@ -1,5 +1,35 @@
 # Decisions
 
+### D7. Postpone Shared Visualization Styling
+Date: 2026-09-15
+
+Decision:
+Postpone Task 5 and remove its draft implementation plan from this
+development. Move CSS loading ownership, reusable visualization styles, and a
+better cross-tab design to Step 7 of the overall SPAC development roadmap.
+
+This supersedes D5 and D6 for the current PR.
+
+Rationale:
+The Features structure and control-ownership refactor is complete without CSS
+changes. The existing loading flow works today, while its eventual replacement
+and the desired visual design need more discussion than the remaining PR
+window permits. Deferring the entire change avoids a temporary implementation
+that would later need rework.
+
+### D6. Treat Existing Visualization Styles as a Starting Point
+Date: 2026-09-15
+
+Decision:
+Use the common Nearest Neighbor and Feature vs Annotation panel rules as a
+low-risk reference for Task 5, not as the final visualization design. Track a
+later redesign as an open issue after shared style ownership is established.
+
+Rationale:
+Task 5 should create a reusable CSS boundary without prematurely fixing the
+application to the current tab styling. A later design discussion can pursue
+a more polished cross-tab experience, consistent with George's feedback.
+
 ### D5. Adopt Shared-First Visualization Styling
 Date: 2026-09-15
 

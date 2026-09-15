@@ -1,10 +1,10 @@
 # Features UI Structure Architecture
 
-This document defines the Features UI organization, focused control-ownership
-cleanup, and shared-first styling foundation. It adapts the section-based
-module pattern in the SPAC template integration guide while replacing
-server-inserted Group By controls with static conditional UI. It does not
-change plot execution or the renderer.
+This document defines the Features UI organization and focused control-
+ownership cleanup. It adapts the section-based module pattern in the SPAC
+template integration guide while replacing server-inserted Group By controls
+with static conditional UI. It does not change styling, plot execution, or the
+renderer.
 
 ## Baseline
 
@@ -58,19 +58,6 @@ composition. `_controls_panel()` owns the ordered controls and action area.
 `_plot_panel()` owns the existing plot output. The local
 `_collapsible_section()` helper implements the repeated disclosure pattern
 without creating a shared cross-tab abstraction.
-
-## Shared Style Ownership
-
-`app.py` loads application-wide and reusable visualization styles once from
-`utils/styling.py`. Data Input retains ownership of its page-specific rules
-without acting as the delivery path for global styles. Features is the first
-consumer of semantically named shared control-panel and result-panel classes.
-
-The shared contract covers stable visual treatment such as panel surfaces,
-borders, radii, padding, and control spacing. Fixed viewport heights, overflow
-behavior, plot dimensions, and tab-specific tooltip rules remain local. The
-existing Nearest Neighbor, Feature vs Annotation, and Ripley L styles are not
-migrated in this task; they can adopt the reviewed shared contract later.
 
 ## Section Ownership
 
@@ -133,9 +120,6 @@ disclosure sections show the intended controls. Direct Shiny verification
 should confirm Group By and Together conditional visibility, annotation-choice
 updates, ordinary and grouped rendering, repeated rendering, plot
 presentation, and dataframe download.
-It should also confirm that shared styles load once, Data Input retains its
-page styling, Features consumes the reusable visualization classes, and other
-tabs remain unchanged.
 
 Facet behavior, responsive plot geometry, canonical title or legend
 containment, renderer changes, and server-side parameter tests are outside

@@ -6,7 +6,7 @@
 Location: `app.py`, `utils/styling.py`, `ui/data_input_ui.py`,
 `ui/features_ui.py`
 Date: 2026-09-15
-Status: Remaining
+Status: Postponed
 
 Implementation decision:
 - Adopt a shared-first CSS structure: load application-wide styles once at
@@ -30,17 +30,23 @@ Action items:
   styles, styles are injected only once, and other visualization tabs are
   unaffected.
 - [ ] Run focused syntax/import checks and `git diff --check`, then review the
-  four-file diff.
+  focused diff.
 
 Commit boundary:
 Establish shared style ownership and adopt it in Features without migrating
 Nearest Neighbor, Feature vs Annotation, or Ripley L in this task.
 
+Postponement:
+- Removed from this focused PR because CSS loading ownership and the intended
+  cross-tab design require a dedicated discussion. The overall SPAC
+  [development roadmap](../../../plans/development-roadmap.md#step-7-extend-template-adoption-across-spac-shiny)
+  now owns this work.
+
 ### Task 4. Replace Dynamic Group By UI With Static Conditions
 Location: `ui/features_ui.py`, `server/features_server.py`,
 `server/effect_update_server.py`
 Date: 2026-09-15
-Status: Remaining
+Status: Complete
 
 Implementation decision:
 - Follow the accepted Feature vs Annotation pattern from PR #66: declare
@@ -49,21 +55,26 @@ Implementation decision:
   updater.
 
 Action items:
-- [ ] Declare `h1_anno` and `h1_together_check` inside the Group By
+- [x] Declare `h1_anno` and `h1_together_check` inside the Group By
   `panel_conditional()` with their current labels and defaults.
-- [ ] Declare `h1_together_drop` inside a nested condition tied to
+- [x] Declare `h1_together_drop` inside a nested condition tied to
   `h1_together_check`, preserving its choices and `"stack"` default.
-- [ ] Remove `main-h1_dropdown`, `main-h1_check`, and
+- [x] Remove `main-h1_dropdown`, `main-h1_check`, and
   `main-h1_together_drop` from `features_ui.py`.
-- [ ] Add `h1_anno` to the existing annotation-choice update effect in
+- [x] Add `h1_anno` to the existing annotation-choice update effect in
   `effect_update_server.py`.
-- [ ] Remove `histogram_ui_initialized` and the Group By and Stack Type
+- [x] Remove `histogram_ui_initialized` and the Group By and Stack Type
   insertion/removal effects from `features_server.py`.
-- [ ] Preserve the current renderer gating and input IDs without adding Facet
+- [x] Preserve the current renderer gating and input IDs without adding Facet
   controls or defining the later Group By/Together/Facet interaction contract.
-- [ ] Verify module syntax, unique rendered IDs, annotation-choice updates,
+- [x] Verify module syntax, unique rendered IDs, annotation-choice updates,
   conditional visibility, and ordinary and grouped render paths.
-- [ ] Run `git diff --check` and review the focused three-file diff.
+- [x] Run `git diff --check` and review the focused three-file diff.
+
+Evidence:
+- Reviewed and committed as `12e16dd`
+  (`refactor(features): use static group controls`). Focused automated checks
+  and direct Shiny interaction passed; see `implementation-log.md`.
 
 Commit boundary:
 Replace the dynamic Group By control lifecycle with static conditional UI and
@@ -71,36 +82,38 @@ central choice updates without changing histogram parameters or adding Facet
 behavior.
 
 ### Task 3. Verify the UI Refactor and Prepare It for Review
-Location: Features UI/server files, shared styling files, SPAC Shiny runtime
+Location: Features UI/server files, SPAC Shiny runtime
 Date: 2026-09-15
-Status: Remaining
+Status: Complete
 
 Implementation decision:
-- Verify the completed UI structure, control-ownership cleanup, and shared
-  styling through focused static checks and direct Shiny interaction before
-  review.
+- Verify the completed UI structure and control-ownership cleanup through
+  focused static checks and direct Shiny interaction before review.
 
 Action items:
-- [ ] Confirm `ui/features_ui.py` imports and constructs successfully.
-- [ ] Confirm every preserved functional input and output ID occurs exactly
+- [x] Confirm `ui/features_ui.py` imports and constructs successfully.
+- [x] Confirm every preserved functional input and output ID occurs exactly
   once and retains its established default.
-- [ ] Run the focused syntax/import check and `git diff --check`.
-- [ ] Verify the initial disclosure state and opening and closing the Plot
+- [x] Run the focused syntax/import check and `git diff --check`.
+- [x] Verify the initial disclosure state and opening and closing the Plot
   Configuration and Figure Configuration sections.
-- [ ] Verify Group By conditional visibility, Plot Together behavior, Stack
+- [x] Verify Group By conditional visibility, Plot Together behavior, Stack
   Type conditional visibility, and annotation-choice updates.
-- [ ] Verify ordinary and grouped rendering, repeated rendering, plot display,
+- [x] Verify ordinary and grouped rendering, repeated rendering, plot display,
   and dataframe download.
-- [ ] Verify shared styles load once, Data Input remains styled, and Features
-  uses the intended reusable visualization classes.
-- [ ] Review the final diff against the focused scope and correct only
+- [x] Review the final diff against the focused scope and correct only
   regressions introduced by this refactor.
-- [ ] Commit the reviewed UI refactor and record the verification evidence.
+- [x] Commit the reviewed UI refactor and record the verification evidence.
 
 Commit boundary:
 Complete and verify the focused refactor without adding facet behavior,
-renderer changes, responsive sizing, cross-tab style migration, or unrelated
-polish.
+renderer changes, responsive sizing, styling changes, or unrelated polish.
+
+Evidence:
+- Completed on 2026-09-15 with no blocking review findings. Application
+  construction, rendered identifiers and defaults, direct renderer/download
+  paths, the existing unit-test module, the aggregate diff, and user-run
+  browser interaction passed; see `implementation-log.md`.
 
 ### Task 2. Organize the Features Controls Into Sections
 Location: `ui/features_ui.py`

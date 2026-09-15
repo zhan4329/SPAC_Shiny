@@ -9,6 +9,7 @@ the later facet development.
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `ref/features-ui-structure`
+- Pull request: [#87](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/87), open and ready for review as of 2026-09-15
 - Development base: `dev`
 - PR target: `dev`
 - Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
@@ -16,9 +17,8 @@ the later facet development.
 
 ## Immediate Next Step
 
-Begin Task 4 by replacing the server-inserted Group By controls with static
-conditional UI. Then complete the shared-first styling work in Task 5 before
-the final Task 3 verification.
+Address review feedback and coordinate integration with PR #86 using the
+[implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence).
 
 ## Progress
 
@@ -29,14 +29,15 @@ the final Task 3 verification.
 - Development tracker created and UI structure agreed.
 - Task 1: Extract the Features UI Composition.
 - Task 2: Organize the Features Controls Into Sections.
-
-**Remaining**
 - Task 4: Replace Dynamic Group By UI With Static Conditions.
-- Task 5: Establish Shared Visualization Styling for Features.
 - Task 3: Verify the UI Refactor and Prepare It for Review.
 
-**Postponed**
+**Remaining**
 - None currently.
+
+**Postponed**
+- Task 5: Establish Shared Visualization Styling for Features. Moved to the
+  cross-tab work in the [development roadmap](../../plans/development-roadmap.md#step-7-extend-template-adoption-across-spac-shiny).
 
 **Dropped**
 - None currently.
@@ -48,9 +49,7 @@ the final Task 3 verification.
 
 Center the refactor in `ui/features_ui.py`. Task 4 permits focused changes to
 `features_server.py` and `effect_update_server.py` for static Group By
-controls. Task 5 permits focused changes to `app.py`, `utils/styling.py`, and
-`ui/data_input_ui.py` to establish shared style ownership and make Features
-its first visualization consumer.
+controls.
 
 Preserve all functional input and output IDs, defaults, the current
 `output_plot`, and analytical server behavior. Do not add facet controls,
@@ -64,5 +63,6 @@ unrelated cross-tab migrations, or unrelated visual polish.
 - [Decisions](./development-details/decisions.md)
 - [Implementation log](./development-details/implementation-log.md)
 - [Implementation notes](./development-details/implementation-notes.md)
+- [PR summary](./pr-summary.md)
 - [Features facet plan](../../plans/features-facet-pr-plan.md)
 - [Development roadmap](../../plans/development-roadmap.md)
