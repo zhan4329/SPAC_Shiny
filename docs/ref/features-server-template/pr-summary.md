@@ -46,3 +46,7 @@ There is not yet committed automated coverage for the new Features adapter or `f
 Suggested order: `server/features_server.py`, `utils/plot_utils.py`, then `ui/features_ui.py`.
 
 The template wrapper must be imported before the Histogram template because the template binds its loader during import.
+
+There is a known issue: in some cases, the title may be too long to render. This needs to be fixed in the SPAC package.
+
+![Known issue for long titles](./images/evidence_task_6_clipped.png)
