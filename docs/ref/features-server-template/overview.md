@@ -8,18 +8,17 @@ for later facet support and agent-driven UI updates.
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `ref/features-server-template`
+- Pull request: [#86](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/86), open and ready for review as of 2026-09-15
 - Target branch: `dev`
 - Dependency prerequisite: `chore/pin-spac-to-pr-433` (merged into `dev` via PR #85 at `b9f63d2`)
-- Primary reference: [SPAC template integration guide](../../../../issues/issue-73.md)
+- Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
 - Related examples: [PR #75](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/75), [PR #80](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/80), and [Mousumi's draft PR #81](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/81)
 
 ## Immediate Next Step
 
-Mark draft PR #86 ready for mentor review, request review, and address only
-feedback within the established template-delegation boundary. Merge the PR
-after approval, close this development tracker, and begin PR 2 from the
-[Features facet plan](../../plans/features-facet-pr-plan.md) as a separate
-development.
+Address review feedback, integrate with PR #87 using the
+[implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence),
+and merge after approval. Close this tracker after merge.
 
 ## Progress
 
@@ -38,10 +37,10 @@ development.
 - Task 3: Add the Agent-to-UI Parameter Registry. This is now part of Agent
   PR C after facet exposure; see the
   [development roadmap](../../plans/development-roadmap.md#agent-pr-c-features-ui-update-and-render).
-- Task 8: Contain Histogram Template Text Within Its Canvas. This is now PR 3
-  in the [Features facet plan](../../plans/features-facet-pr-plan.md#pr-3-contain-canonical-histogram-text).
-- Task 9: Make the Histogram Preview Responsive. This is now PR 4 in the
-  [Features facet plan](../../plans/features-facet-pr-plan.md#pr-4-make-the-histogram-preview-responsive).
+- Task 8: Contain Histogram Template Text Within Its Canvas. This is now PR 4
+  in the [Features facet plan](../../plans/features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
+- Task 9: Make the Histogram Preview Responsive. This is now PR 5 in the
+  [Features facet plan](../../plans/features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
 
 **Postponed tasks**
 - Task 7: Add Focused Adapter Tests. Defer comprehensive automated adapter
@@ -52,12 +51,12 @@ development.
 
 **Issues (open)**
 1. Long template-generated titles or legend labels can be clipped by the
-   canonical PNG. The separate SCSAWorkflow PR 3 owns this issue; see the
-   [Features facet plan](../../plans/features-facet-pr-plan.md#pr-3-contain-canonical-histogram-text).
+   canonical PNG. The separate SCSAWorkflow PR 4 owns this issue; see the
+   [Features facet plan](../../plans/features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
 2. Proportional preview fitting can leave available width unused. Task 9 owns
    this renderer-neutral browser-layout issue through separate SPAC Shiny
-   PR 4; see the
-   [Features facet plan](../../plans/features-facet-pr-plan.md#pr-4-make-the-histogram-preview-responsive).
+   PR 5; see the
+   [Features facet plan](../../plans/features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
 
 **Issues (addressed)**
 - Task 10 selected direct canonical-PNG delivery through `render.image` and

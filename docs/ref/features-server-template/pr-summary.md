@@ -4,7 +4,7 @@
 
 ## Description
 
-This PR refactors the features histogram to use the standard SPAC histogram template while preserving the current non-facet user experience.
+This PR refactors `features_server.py` to use the latest SPAC histogram template while preserving the current non-facet user experience.
 
 The server now reads canonical AnnData, converts the existing features inputs to the template contract, and runs the template through the in-memory registry. The template's figure and dataframe remain the canonical results for the plot preview and CSV download.
 

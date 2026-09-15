@@ -58,8 +58,9 @@ Date: 2026-09-01
 Status: Reassigned
 
 Implementation decision:
-- Reassigned on 2026-09-03 to PR 4 in the
-  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-4-make-the-histogram-preview-responsive).
+- Reassigned on 2026-09-03 to the responsive-preview development, now PR 5
+  after the 2026-09-15 UI extraction, in the
+  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
   No implementation belongs to the current template-delegation PR.
 - Treat proportional preview delivery as a Shiny concern independent of
   both canonical text containment and the selected Shiny renderer. Fit the
@@ -85,8 +86,9 @@ Date: 2026-09-01
 Status: Reassigned
 
 Implementation decision:
-- Reassigned on 2026-09-03 to PR 3 in the
-  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-3-contain-canonical-histogram-text).
+- Reassigned on 2026-09-03 to the canonical-text development, now PR 4
+  after the 2026-09-15 UI extraction, in the
+  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
   No implementation belongs to the current template-delegation PR.
 - Fix canonical title and legend-label containment where the Histogram
   template creates and positions that text. Keep Shiny rendering choices out

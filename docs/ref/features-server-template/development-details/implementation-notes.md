@@ -2,15 +2,19 @@
 
 ## Branch and PR Sequence
 
-Create `chore/pin-spac-to-pr-433` from `dev` and merge it first.
-Create `ref/features-server-template` from the updated `dev`. After the
-adapter PR is merged, begin the combined structured-UI-and-facet PR from the
-updated `dev`. The authoritative future order is recorded in the
-[Features facet plan](../../../plans/features-facet-pr-plan.md) and
-[development roadmap](../../../plans/development-roadmap.md).
+PR #85 established the [dependency baseline](../../../chore/pin-spac-to-pr-433/).
+PRs #86 and #87 independently target `dev`; either may merge first.
+Whichever integrates second must preserve:
 
-The dependency baseline and existing template-caller compatibility work are
-tracked in [the prerequisite PR folder](../../../chore/pin-spac-to-pr-433/).
+- #87's static Group By controls and central Annotation-choice updates,
+  removing the dynamic insertion lifecycle still present in #86;
+- #86's semantic adapter, template execution, and canonical image output,
+  with `output_image` inside `_plot_panel()`.
+
+Verify ordinary and grouped renders, retained hidden selections, repeated
+rendering, and CSV download on the combined baseline. The
+[Features facet plan](../../../plans/features-facet-pr-plan.md) owns subsequent
+PR ordering.
 
 ## Reusing Mousumi's Work
 
@@ -22,7 +26,7 @@ ffa8644 Refactoring the old code in the feature server using run_fron_json
 
 When it applies cleanly, `git cherry-pick ffa8644` preserves `MSahaPurdue` as
 the commit author. Clean up and update the result for the current SPAC version
-and the [Issue #73 workflow](../../../../../issues/issue-73.md).
+and the [Issue #73 workflow](../../../../issues/issue-73.md).
 
 Do not manually recreate the entire draft branch or merge PR #81 wholesale. If selective cleanup is needed, use `git cherry-pick -n <commit>`, retain only the adapter-related changes, and preserve accurate author or co-author metadata in the resulting commit. Mention the reused commits in the PR description.
 

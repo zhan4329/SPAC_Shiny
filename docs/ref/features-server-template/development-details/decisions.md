@@ -1,7 +1,7 @@
 # Decisions
 
 The dependency baseline decision is maintained in the prerequisite
-[compatibility PR decision log](03_Career/Projects/Active/SPAC/docs/chore/pin-spac-to-pr-433/development-details/decisions.md).
+[compatibility PR decision log](../../../chore/pin-spac-to-pr-433/development-details/decisions.md).
 
 ### D20. Close the Adapter PR and Reassign Follow-Up Work
 Date: 2026-09-03
@@ -291,7 +291,7 @@ template-adapter design rather than cherry-picking the full branch or using
 Details:
 - Start from the current `ref/features-server-template` branch.
 - Implement the adapter cleanly for the current SPAC version and the
-  [Issue #73 workflow](../../../../../issues/issue-73.md).
+  [Issue #73 workflow](../../../../issues/issue-73.md).
 - Mention `ffa8644` in the PR description.
 - Add Mousumi as a co-author if her design or code is materially reused.
 
