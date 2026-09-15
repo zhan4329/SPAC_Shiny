@@ -18,6 +18,10 @@ def features_ui():
 
 def _controls_panel():
     return ui.div(
+        {"class": "controls-panel"},
+
+        # === SECTION 1: Core Parameters (always visible) ===
+        ui.h4("Core Parameters"),
         ui.input_select(
             "h1_feat",
             "Select a Feature",
@@ -29,40 +33,75 @@ def _controls_panel():
             choices=[],
             selected=["Original"]
         ),
-        ui.input_checkbox(
-            "h1_group_by_check",
-            "Group By",
-            value=False
+
+        ui.hr(),
+
+        # === SECTION 2: Plot Configuration (collapsible) ===
+        _collapsible_section(
+            checkbox_id="h1_show_plot_config",
+            label="Show Plot Configuration",
+            content=[
+                ui.input_checkbox(
+                    "h1_group_by_check",
+                    "Group By",
+                    value=False
+                ),
+                ui.div(id="main-h1_dropdown"),
+                ui.div(id="main-h1_check"),
+                ui.div(id="main-h1_together_drop"),
+                ui.input_checkbox(
+                    "h1_log_x",
+                    "Log X-axis",
+                    value=False
+                ),
+                ui.input_checkbox(
+                    "h1_log_y",
+                    "Log Y-axis",
+                    value=False
+                )
+            ]
         ),
-        ui.input_checkbox(
-            "h1_log_x",
-            "Log X-axis",
-            value=False
+
+        ui.hr(),
+
+        # === SECTION 3: Figure Configuration (collapsible) ===
+        _collapsible_section(
+            checkbox_id="h1_show_figure_config",
+            label="Show Figure Configuration",
+            content=[
+                accessible_slider(
+                    "feat_slider",
+                    "Rotate X-axis Labels (degrees)",
+                    min_val=0,
+                    max_val=90,
+                    value=0,
+                    step=1
+                )
+            ]
         ),
-        ui.input_checkbox(
-            "h1_log_y",
-            "Log Y-axis",
-            value=False
-        ),
-        ui.div(id="main-h1_dropdown"),
-        ui.div(id="main-h1_check"),
-        ui.div(id="main-h1_together_drop"),
-        accessible_slider(
-            "feat_slider",
-            "Rotate X-axis Labels (degrees)",
-            min_val=0,
-            max_val=90,
-            value=0,
-            step=1
-        ),
+
+        ui.br(),
+
+        # === Generate Button ===
         ui.input_action_button(
             "go_h1",
             "Render Plot",
-            class_="btn-success"
+            class_="btn-success w-100"
         ),
         ui.div(
             {"style": "padding-top: 20px;"},
             ui.output_ui("download_histogram1_button_ui")
+        )
+    )
+
+
+def _collapsible_section(checkbox_id, label, content):
+    """Create a collapsible section with checkbox toggle."""
+    return ui.div(
+        ui.input_checkbox(checkbox_id, label, value=False),
+        ui.panel_conditional(
+            f"input.{checkbox_id}",
+            *content
         )
     )
 
