@@ -9,17 +9,16 @@ the later facet development.
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `ref/features-ui-structure`
-- Pull request: [#87](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/87), open and ready for review as of 2026-09-15
-- Development base: `dev`
+- Pull request: [#87](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/87), open
+  and rebased onto `dev` after PR #86 as of 2026-09-16
+- Development base: `dev` at `5a3cf25` (includes merged PR #86)
 - PR target: `dev`
 - Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
 - Follow-up development: [Features facet UI](../../feat/features-facet/overview.md)
 
 ## Immediate Next Step
 
-Address review feedback, then rebase and integrate PR #87 with current `dev`,
-which includes merged PR #86, using the
-[implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence).
+Address review feedback and merge PR #87 after approval.
 
 ## Progress
 
@@ -32,6 +31,7 @@ which includes merged PR #86, using the
 - Task 2: Organize the Features Controls Into Sections.
 - Task 4: Replace Dynamic Group By UI With Static Conditions.
 - Task 3: Verify the UI Refactor and Prepare It for Review.
+- Rebased and pushed the reviewed branch onto `dev` at `efc514b`.
 
 **Remaining**
 - None currently.
@@ -52,10 +52,11 @@ Center the refactor in `ui/features_ui.py`. Task 4 permits focused changes to
 `features_server.py` and `effect_update_server.py` for static Group By
 controls.
 
-Preserve all functional input and output IDs, defaults, the current
-`output_plot`, and analytical server behavior. Do not add facet controls,
-template parameters, responsive preview work, renderer changes, dependencies,
-unrelated cross-tab migrations, or unrelated visual polish.
+Preserve all functional input and output IDs, defaults, analytical server
+behavior, and the merged adapter's `output_image` renderer contract. Do not
+add facet controls, template parameters, responsive preview work, renderer
+changes, dependencies, unrelated cross-tab migrations, or unrelated visual
+polish.
 
 ## Development Details
 
@@ -65,5 +66,5 @@ unrelated cross-tab migrations, or unrelated visual polish.
 - [Implementation log](./development-details/implementation-log.md)
 - [Implementation notes](./development-details/implementation-notes.md)
 - [PR summary](./pr-summary.md)
-- [Features facet plan](../../plans/features-facet-pr-plan.md)
+- [Features facet plan](../../plans/pr-plans/1-features-facet-pr-plan.md)
 - [Development roadmap](../../plans/development-roadmap.md)
