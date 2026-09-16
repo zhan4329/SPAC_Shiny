@@ -58,23 +58,6 @@ cancellation, other tabs, Datashader, and Leiden should not block the first
 agent implementation. Facet gives the demonstration a meaningful new plotting
 capability; it need not block independent grounded-chat or summary work.
 
-## Current Checkpoint and Review-Wait Priorities
-
-As of 2026-09-15, PRs #86 and #87 are under review. Recommended next work:
-
-1. Resolve the [facet tracker’s open decisions](../feat/features-facet/overview.md#issues-open).
-2. Prepare [Agent PR A](#agent-pr-a-grounded-spac-chat), beginning with a tracker
-   and audit of `origin/chatbot-restore`. If review delays continue, this is
-   the first independent implementation candidate; summary design for Agent
-   PR B can follow. Neither requires facet controls.
-3. Once a prerequisite merges, follow the
-   [integration sequence](../ref/features-server-template/development-details/implementation-notes.md#branch-and-pr-sequence)
-   and resume facet development. Agent PR C needs stable facet inputs.
-
-Keep one primary implementation active. Use canonical text-containment work
-as an alternative if clipping blocks facet; otherwise protect the October
-agent milestone from additional layout and parameter work.
-
 ## Target Architecture
 
 ```text
@@ -338,10 +321,11 @@ it does not require merging each branch unchanged.
 
 ## Calendar Through December 2026
 
-### September Foundation and Current Checkpoint
+### September Foundation
 
-- PR #86 template delegation and PR #87 UI structure/static controls are
-  implemented and under review as of September 15; integrate both;
+- Current checkpoint (September 16): PR #86 merged; PR #87 remains under
+  review.
+- Integrate PR #87 with the current `dev` baseline;
 - settle the facet interaction and expose facet with its coupled grouping
   behavior in its own follow-up PR;
 - create the dedicated agent development tracker and architecture decision;
