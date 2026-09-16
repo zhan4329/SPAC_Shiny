@@ -19,7 +19,7 @@ It does not need to be production-ready or support every tab and model
 provider by year end. It must be an end-to-end implementation rather than a
 chat-only demonstration.
 
-The [Features facet PR plan](./features-facet-pr-plan.md) records the Features
+The [Features facet PR plan](./pr-plans/1-features-facet-pr-plan.md) records the Features
 modernization sequence. [Features future work](./future-work.md) contains only
 unscheduled, Features-specific improvements outside this roadmap.
 
@@ -94,7 +94,7 @@ not the raw AnnData matrix, should be sent to an external model by default.
 Goal: provide the structured execution boundary and intended facet capability
 that the first agentic Features workflow will control.
 
-Complete PRs 1-3 in the [Features facet PR plan](./features-facet-pr-plan.md):
+Complete PRs 1-3 in the [Features facet PR plan](./pr-plans/1-features-facet-pr-plan.md):
 template delegation, independent UI structure, and facet exposure. That plan
 owns their scope and ordering. The completed facet input contract is required
 for Agent PR C.
@@ -151,16 +151,15 @@ and the interview-target agentic vertical slice are working.
 
 Expected developments:
 
-- fix title and legend containment in a focused SCSAWorkflow PR;
 - make ordinary and facet previews proportional and responsive;
 - expose analytical parameters, followed by presentation and export
   parameters in separate PRs;
 - extend the agent registry as each additional input contract becomes stable.
 
 The detailed order remains in the
-[Features facet PR plan](./features-facet-pr-plan.md). If the AI work takes
-longer than expected, PRs 4-6 wait; the adapter and exposed facet path are
-sufficient for the first end-to-end agent slice.
+[Features facet PR plan](./pr-plans/1-features-facet-pr-plan.md). If the AI work takes
+longer than expected, later Features improvements can wait; the adapter and
+exposed facet path are sufficient for the first end-to-end agent slice.
 
 ### Step 4. Harden the Experimental Agent for the Year-End Milestone
 
@@ -345,7 +344,7 @@ it does not require merging each branch unchanged.
 
 - complete any remaining facet-to-agent integration if the interview work
   slips; the intended registry integration belongs to Agent PR C above;
-- fix canonical template text and responsive preview behavior;
+- implement responsive preview behavior;
 - harden agent error handling and verification.
 
 ### December

@@ -3,7 +3,7 @@
 ## Purpose
 
 Record Features-tab improvements that are outside both the
-[near-future facet PR sequence](./features-facet-pr-plan.md) and the inherited
+[near-future facet PR sequence](./pr-plans/1-features-facet-pr-plan.md) and the inherited
 Purdue-team work covered by the [broader roadmap](./development-roadmap.md).
 
 These items are intentionally not scheduled. Some are worthwhile polish for a
