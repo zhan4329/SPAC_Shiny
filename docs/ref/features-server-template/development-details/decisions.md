@@ -13,7 +13,7 @@ PR #86 merged into `dev`; this development is complete.
 Date: 2026-09-03
 
 Decision:
-Treat the [Features facet plan](../../../plans/features-facet-pr-plan.md) and
+Treat the [Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md) and
 [development roadmap](../../../plans/development-roadmap.md) as the
 authoritative future sequence. Close the current development after PR #86
 review and merge. Reassign Task 3 to Agent PR C, Task 8 to the plan's PR 3,

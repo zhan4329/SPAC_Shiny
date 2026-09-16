@@ -13,7 +13,7 @@ Whichever integrates second must preserve:
 
 Verify ordinary and grouped renders, retained hidden selections, repeated
 rendering, and CSV download on the combined baseline. The
-[Features facet plan](../../../plans/features-facet-pr-plan.md) owns subsequent
+[Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md) owns subsequent
 PR ordering.
 
 ## Reusing Mousumi's Work

@@ -60,7 +60,7 @@ Status: Reassigned
 Implementation decision:
 - Reassigned on 2026-09-03 to the responsive-preview development, now PR 5
   after the 2026-09-15 UI extraction, in the
-  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
+  [Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
   No implementation belongs to the current template-delegation PR.
 - Treat proportional preview delivery as a Shiny concern independent of
   both canonical text containment and the selected Shiny renderer. Fit the
@@ -88,23 +88,19 @@ Status: Reassigned
 Implementation decision:
 - Reassigned on 2026-09-03 to the canonical-text development, now PR 4
   after the 2026-09-15 UI extraction, in the
-  [Features facet plan](../../../plans/features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
+  [Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
+  Detailed work is now owned by the
+  [Canonical Histogram Text tracker](../../../fix/canonical-histogram-text/overview.md).
   No implementation belongs to the current template-delegation PR.
-- Fix canonical title and legend-label containment where the Histogram
-  template creates and positions that text. Keep Shiny rendering choices out
-  of this package task.
+- The successor tracker owns the revised scope; this reassignment remains
+  historical.
 
 Action items:
-- [ ] Reproduce long-title and long-legend clipping in the template's saved
-  8-by-6, 300-DPI output independently of Shiny.
-- [ ] Add content-aware title line breaking and legend-label containment while
-  preserving the template's figure boundary and current font defaults.
-- [ ] Re-run template layout after text adjustment and verify ordinary,
-  grouped, external-legend, and facet paths.
-- [ ] Deliver and verify the correction as a focused SCSAWorkflow change.
+- Detailed unexecuted action items belong to the
+  [Canonical Histogram Text tasks](../../../fix/canonical-histogram-text/development-details/task-details.md).
 
 Commit boundary:
-Keep template-generated histogram text inside the canonical figure canvas.
+Commit boundaries belong to the successor tracker.
 
 ### Task 7. Add Focused Adapter Tests
 Location: `server/features_server.py`, `tests/`
