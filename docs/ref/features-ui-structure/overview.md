@@ -17,7 +17,8 @@ the later facet development.
 
 ## Immediate Next Step
 
-Address review feedback and coordinate integration with PR #86 using the
+Address review feedback, then rebase and integrate PR #87 with current `dev`,
+which includes merged PR #86, using the
 [implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence).
 
 ## Progress
