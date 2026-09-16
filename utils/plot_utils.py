@@ -1,12 +1,46 @@
 """
 Plotting utility functions for SPAC Shiny application.
 
-This module provides reusable helper functions for customizing matplotlib
-plots, such as axis label formatting and styling.
+This module provides reusable helpers for serializing matplotlib figures and
+formatting plot labels.
 """
 
+import io
 from typing import List
+
+import matplotlib.pyplot as plt
 from matplotlib.text import Text
+
+
+def fig_to_png_bytes(fig) -> bytes:
+    """Serialize a figure to uncropped PNG bytes and close it.
+
+    The figure's configured DPI is preserved. Objects exposing an underlying
+    Matplotlib figure through ``.fig`` are also supported.
+
+    Parameters
+    ----------
+    fig
+        Matplotlib figure or figure-owning object to serialize.
+
+    Returns
+    -------
+    bytes
+        PNG data preserving the figure's intrinsic boundary.
+    """
+
+    underlying = fig.fig if hasattr(fig, "fig") else fig
+    try:
+        with io.BytesIO() as buffer:
+            underlying.savefig(
+                buffer,
+                format="png",
+                dpi=underlying.get_dpi(),
+                bbox_inches=None,
+            )
+            return buffer.getvalue()
+    finally:
+        plt.close(underlying)
 
 
 def abbreviate_labels(labels: List[Text], limit: int) -> List[str]:
