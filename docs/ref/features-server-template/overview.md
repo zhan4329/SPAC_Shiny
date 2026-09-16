@@ -8,7 +8,7 @@ for later facet support and agent-driven UI updates.
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `ref/features-server-template`
-- Pull request: [#86](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/86), open and ready for review as of 2026-09-15
+- Pull request: [#86](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/86), merged into `dev` on 2026-09-16
 - Target branch: `dev`
 - Dependency prerequisite: `chore/pin-spac-to-pr-433` (merged into `dev` via PR #85 at `b9f63d2`)
 - Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
@@ -16,9 +16,10 @@ for later facet support and agent-driven UI updates.
 
 ## Immediate Next Step
 
-Address review feedback, integrate with PR #87 using the
-[implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence),
-and merge after approval. Close this tracker after merge.
+This development is complete. Integrate PR #87 with the merged adapter using
+the [implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence),
+then continue the facet work in the
+[Features facet tracker](../../feat/features-facet/overview.md#immediate-next-step).
 
 ## Progress
 
@@ -26,6 +27,7 @@ and merge after approval. Close this tracker after merge.
 - None currently.
 
 **Complete**
+- PR #86: Merged into `dev` on 2026-09-16.
 - Task 10: Resolve the Canonical PNG Renderer Boundary.
 - Task 6: Preserve and Verify Reactive UI Behavior.
 - Task 5: Delegate Histogram Execution to the Template.
@@ -66,9 +68,9 @@ and merge after approval. Close this tracker after merge.
 
 Keep the adapter boundary focused on canonical AnnData access, current
 Features inputs, template payload construction, memory-registry execution,
-canonical figure presentation, and dataframe return. Do not add facet UI,
-new histogram controls, responsive layout, caching, downloads, cancellation,
-or agent integration while PR #86 is under review. The canonical order and
+canonical figure presentation, and dataframe return. The merged PR #86 did
+not add facet UI, new histogram controls, responsive layout, caching,
+downloads, cancellation, or agent integration. The canonical order and
 ownership of that later work are defined by the Features facet plan and the
 broader development roadmap.
 

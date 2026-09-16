@@ -3,6 +3,12 @@
 The dependency baseline decision is maintained in the prerequisite
 [compatibility PR decision log](../../../chore/pin-spac-to-pr-433/development-details/decisions.md).
 
+### D21. Record PR #86 Merge
+Date: 2026-09-16
+
+Decision:
+PR #86 merged into `dev`; this development is complete.
+
 ### D20. Close the Adapter PR and Reassign Follow-Up Work
 Date: 2026-09-03
 
