@@ -8,11 +8,9 @@ preserving the accepted template-adapter and canonical-rendering boundaries.
 - Repository: `SPAC_Shiny`
 - Proposed feature branch: `feat/features-facet`
 - Target branch: `dev`
-- Development prerequisites: merged PR #86, `ref/features-server-template`, and PR #87,
+- Development prerequisites: merged PRs #86 and #87; see the
   [Features UI structure refactor](../../ref/features-ui-structure/overview.md)
-- Development base: a branch containing both accepted prerequisites
-- Merge prerequisite: both prerequisite PRs must merge before this development
-  merges to `dev`
+- Development base: `dev` at `e156136`, containing both prerequisites
 - Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
 - Governing plan: [Features facet PR plan](../../plans/pr-plans/1-features-facet-pr-plan.md#pr-3-expose-facet-through-the-structured-features-ui)
 - Related prior work: [Mousumi's draft PR #81](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/81)
@@ -20,9 +18,8 @@ preserving the accepted template-adapter and canonical-rendering boundaries.
 ## Immediate Next Step
 
 Resolve the facet-specific interaction and verification issues below. Create
-`feat/features-facet` once its base contains both prerequisites, following the
-integration sequence in
-[implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence).
+`feat/features-facet` from the combined `dev` base, following the integration
+sequence in [implementation notes](./development-details/implementation-notes.md#branch-and-pr-sequence).
 
 ## Progress
 
