@@ -9,8 +9,8 @@ the later facet development.
 
 - Repository: `SPAC_Shiny`
 - Feature branch: `ref/features-ui-structure`
-- Pull request: [#87](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/87), open
-  and rebased onto `dev` after PR #86 as of 2026-09-16
+- Pull request: [#87](https://github.com/FNLCR-DMAP/SPAC_Shiny/pull/87), merged
+  into `dev` on 2026-09-17 at `e156136`
 - Development base: `dev` at `5a3cf25` (includes merged PR #86)
 - PR target: `dev`
 - Primary reference: [SPAC template integration guide](../../../issues/issue-73.md)
@@ -18,7 +18,7 @@ the later facet development.
 
 ## Immediate Next Step
 
-Address review feedback and merge PR #87 after approval.
+This development is complete. Continue with the [Features facet development](../../feat/features-facet/overview.md).
 
 ## Progress
 
@@ -26,6 +26,7 @@ Address review feedback and merge PR #87 after approval.
 - None currently.
 
 **Complete**
+- PR #87 merged into `dev` on 2026-09-17 at `e156136`.
 - Development tracker created and UI structure agreed.
 - Task 1: Extract the Features UI Composition.
 - Task 2: Organize the Features Controls Into Sections.
