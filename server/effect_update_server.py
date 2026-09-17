@@ -28,6 +28,7 @@ def effect_update_server(input, output, session, shared):
             new_choices = choices + ["No Annotation"]
             ui.update_select("bp_anno", choices=new_choices)
         ui.update_select("h2_anno", choices=choices)
+        ui.update_select("h1_anno", choices=choices)
         ui.update_select("hm1_anno", choices=choices)
 
         if choices is not None and len(choices) > 1:
@@ -322,4 +323,3 @@ def effect_update_server(input, output, session, shared):
 
             # Clear the subset history since the data is restored
             subset_history.set("")
-
