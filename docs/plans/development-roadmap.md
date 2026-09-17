@@ -322,9 +322,7 @@ it does not require merging each branch unchanged.
 
 ### September Foundation
 
-- Current checkpoint (September 16): PR #86 merged; PR #87 remains under
-  review.
-- Integrate PR #87 with the current `dev` baseline;
+- Current checkpoint (September 17): PRs #86 and #87 merged.
 - settle the facet interaction and expose facet with its coupled grouping
   behavior in its own follow-up PR;
 - create the dedicated agent development tracker and architecture decision;
