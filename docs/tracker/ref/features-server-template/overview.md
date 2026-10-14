@@ -40,7 +40,7 @@ then continue the facet work in the
   PR C after facet exposure; see the
   [development roadmap](../../plans/development-roadmap.md#agent-pr-c-features-ui-update-and-render).
 - Task 8: Contain Histogram Template Text Within Its Canvas. This is now PR 4
-  in the [Features facet plan](../../plans/pr-plans/1-features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
+  in the [Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md#pr-4-fix-histogram-text-clipping).
 - Task 9: Make the Histogram Preview Responsive. This is now PR 5 in the
   [Features facet plan](../../plans/pr-plans/1-features-facet-pr-plan.md#pr-5-make-the-histogram-preview-responsive).
 
@@ -53,7 +53,7 @@ then continue the facet work in the
 
 **Issues (open)**
 1. Long template-generated titles or legend labels can be clipped by the
-   canonical PNG. The [canonical text tracker](../../fix/canonical-histogram-text/overview.md)
+   canonical PNG. The [histogram text clipping tracker](../../fix/histogram-text-clipping/overview.md)
    owns this follow-up.
 2. Proportional preview fitting can leave available width unused. Task 9 owns
    this renderer-neutral browser-layout issue through separate SPAC Shiny

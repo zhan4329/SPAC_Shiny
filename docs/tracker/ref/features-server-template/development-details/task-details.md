@@ -86,18 +86,18 @@ Date: 2026-09-01
 Status: Reassigned
 
 Implementation decision:
-- Reassigned on 2026-09-03 to the canonical-text development, now PR 4
+- Reassigned on 2026-09-03 to the histogram-text-clipping development, now PR 4
   after the 2026-09-15 UI extraction, in the
-  [Features facet plan](../../../plans/pr-plans/1-features-facet-pr-plan.md#pr-4-contain-canonical-histogram-text).
+  [Features facet plan](../../../../plans/pr-plans/1-features-facet-pr-plan.md#pr-4-fix-histogram-text-clipping).
   Detailed work is now owned by the
-  [Canonical Histogram Text tracker](../../../fix/canonical-histogram-text/overview.md).
+  [Histogram Text Clipping tracker](../../../fix/histogram-text-clipping/overview.md).
   No implementation belongs to the current template-delegation PR.
 - The successor tracker owns the revised scope; this reassignment remains
   historical.
 
 Action items:
 - Detailed unexecuted action items belong to the
-  [Canonical Histogram Text tasks](../../../fix/canonical-histogram-text/development-details/task-details.md).
+  [Histogram Text Clipping tasks](../../../fix/histogram-text-clipping/development-details/task-details.md).
 
 Commit boundary:
 Commit boundaries belong to the successor tracker.
