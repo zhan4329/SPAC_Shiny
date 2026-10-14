@@ -55,12 +55,12 @@ inherit the UI refactor rather than repeating it. Interaction decisions and
 verification belong to the facet tracker. Agent PR C will use the resulting
 input contract.
 
-### PR 4. Contain Canonical Histogram Text
+### PR 4. Fix Histogram Text Clipping
 
 Repositories: SCSAWorkflow and SPAC Shiny
 Inherited from PR 1: Task 8
 
-Tracker: [Canonical Histogram Text](../../fix/canonical-histogram-text/overview.md)
+Tracker: [Histogram Text Clipping](../../tracker/fix/histogram-text-clipping/overview.md)
 
 Wrap long template-generated titles in SCSAWorkflow and preserve complete
 Histogram PNG output in SPAC Shiny. One development tracker coordinates the
