@@ -1,5 +1,16 @@
 # Decisions
 
+### D3. Combine Export Reproduction, Implementation, and Verification
+Date: 2026-10-14
+
+Decision:
+Consolidate Task 3 into Task 2, keeping Task 1 as the independent package
+title improvement. Retain separate repository PRs and consumer adoption.
+
+Rationale:
+One focused export task avoids duplicate verification while preserving the
+requirements for complete text, original canvas, and unchanged plot geometry.
+
 ### D2. Separate Package Title Wrapping From Shiny Export Completeness
 Date: 2026-09-16
 
